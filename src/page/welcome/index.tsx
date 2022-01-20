@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import NavigationUtil from '../../navigation/navigation_utils';
+import NavigationUtil from '../../navigation/NavigationUtil';
 import {getBoarding} from '../../utils/BoardingUtil';
 
 export default function (props: any) {
