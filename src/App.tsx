@@ -3,7 +3,7 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import AppNavigators from './navigation/AppNavigators';
 import {WRootToastApp} from 'react-native-smart-tip';
-
+import {SafeAreaView} from 'react-native';
 // import store from './store';
 
 export default function App() {
@@ -12,7 +12,9 @@ export default function App() {
    */
   return (
     <WRootToastApp>
-      <AppNavigators />
+      <SafeAreaView style={{height: '100%', width: '100%'}}>
+        <AppNavigators />
+      </SafeAreaView>
     </WRootToastApp>
     // <Provider store={}>
     // </Provider>

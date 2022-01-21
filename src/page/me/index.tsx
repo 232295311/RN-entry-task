@@ -5,6 +5,7 @@ import AsyncStorage from '../../utils/AsyncStorage';
 export default (props: any) => {
   const show = () => {
     AsyncStorage.clearItem();
+    WToast.show({data: '退出APP再重进'});
   };
   return (
     <SafeAreaView style={styles.root}>

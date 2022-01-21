@@ -102,75 +102,75 @@ export default (props: any) => {
   }
 
   return (
-    <SafeAreaView style={{
-        // backgroundColor: 'red'
-    }}>
-      <ImageBackground style={styles.container} source={imgAssets.loginBg}>
-        <KeyboardAvoidingView
-          style={styles.header}
-          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-          enabled
-          keyboardVerticalOffset={100}>
-          <ScrollView style={styles.container}>
-            <View style={styles.desc}>
-              <Text style={styles.descText}>
-                {I18n.t('find_the_most_loved_activities')}
-              </Text>
+    // <SafeAreaView style={{
+    //     // backgroundColor: 'red'
+    // }}>
+    <ImageBackground style={styles.container} source={imgAssets.loginBg}>
+      <KeyboardAvoidingView
+        style={styles.header}
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+        enabled
+        keyboardVerticalOffset={100}>
+        <ScrollView style={styles.container}>
+          <View style={styles.desc}>
+            <Text style={styles.descText}>
+              {I18n.t('find_the_most_loved_activities')}
+            </Text>
+          </View>
+          <View style={styles.title}>
+            <Text style={styles.titleText}>{I18n.t('black_cat')}</Text>
+          </View>
+          <View style={styles.logoPanel}>
+            <ImageBackground
+              style={styles.cat}
+              source={imgAssets.loginCat}></ImageBackground>
+          </View>
+          <View style={styles.layoutTop}></View>
+          <View style={styles.inputPanel}>
+            <View style={emailStyle}>
+              <Image style={styles.loginUser} source={imgAssets.loginUser} />
+              <TextInput
+                style={styles.textInput}
+                placeholder={I18n.t('email')}
+                placeholderTextColor="#AC8EC9"
+                value={email}
+                maxLength={30}
+                ref={bindEmail}
+                onChangeText={emailChange}
+                onBlur={emailFocus}
+                onFocus={emailBlur}
+              />
             </View>
-            <View style={styles.title}>
-              <Text style={styles.titleText}>{I18n.t('black_cat')}</Text>
+            <View style={passwordStyle}>
+              <Image
+                style={styles.loginPassword}
+                source={imgAssets.loginPassword}
+              />
+              <TextInput
+                style={styles.textInput}
+                placeholder={I18n.t('password')}
+                placeholderTextColor="#AC8EC9"
+                value={password}
+                maxLength={30}
+                ref={bindPassword}
+                onChangeText={passwordChange}
+                onBlur={passwordFocus}
+                onFocus={passwordBlur}
+                secureTextEntry
+              />
             </View>
-            <View style={styles.logoPanel}>
-              <ImageBackground
-                style={styles.cat}
-                source={imgAssets.loginCat}></ImageBackground>
-            </View>
-            <View style={styles.layoutTop}></View>
-            <View style={styles.inputPanel}>
-              <View style={emailStyle}>
-                <Image style={styles.loginUser} source={imgAssets.loginUser} />
-                <TextInput
-                  style={styles.textInput}
-                  placeholder={I18n.t('email')}
-                  placeholderTextColor="#AC8EC9"
-                  value={email}
-                  maxLength={30}
-                  ref={bindEmail}
-                  onChangeText={emailChange}
-                  onBlur={emailFocus}
-                  onFocus={emailBlur}
-                />
-              </View>
-              <View style={passwordStyle}>
-                <Image
-                  style={styles.loginPassword}
-                  source={imgAssets.loginPassword}
-                />
-                <TextInput
-                  style={styles.textInput}
-                  placeholder={I18n.t('password')}
-                  placeholderTextColor="#AC8EC9"
-                  value={password}
-                  maxLength={30}
-                  ref={bindPassword}
-                  onChangeText={passwordChange}
-                  onBlur={passwordFocus}
-                  onFocus={passwordBlur}
-                  secureTextEntry
-                />
-              </View>
-            </View>
-            <View style={styles.layoutBot}></View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-        <TouchableHighlight
-          style={styles.body}
-          underlayColor="#E5FF9F"
-          onPress={signIn}>
-          <Text style={{fontSize: setSpText2(16)}}>{I18n.t('sign_in')}</Text>
-        </TouchableHighlight>
-      </ImageBackground>
-    </SafeAreaView>
+          </View>
+          <View style={styles.layoutBot}></View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+      <TouchableHighlight
+        style={styles.body}
+        underlayColor="#E5FF9F"
+        onPress={signIn}>
+        <Text style={{fontSize: setSpText2(16)}}>{I18n.t('sign_in')}</Text>
+      </TouchableHighlight>
+    </ImageBackground>
+    // </SafeAreaView>
   );
 };
 

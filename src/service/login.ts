@@ -1,5 +1,7 @@
 import {post} from './request';
-
+/**
+ * LoginPage接口
+ */
 export const register = async (
   email: string,
   password: string,

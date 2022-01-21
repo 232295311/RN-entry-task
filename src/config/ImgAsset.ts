@@ -4,11 +4,11 @@ export const imgAssets: any = {
   loginCat: require('../../assets/loginCat.png'),
   loginUser: require('../../assets/loginUser.png'),
   loginPassword: require('../../assets/loginPassword.png'),
-  //通用header
+  //commonHeader
   homeSearch: require('../../assets/home.png'),
   headerSearch: require('../../assets/search.png'),
   headerCat: require('../../assets/cat.png'),
-  //活动组建
+  //活动组件使用
   activityGo: require('../../assets/activityGo.png'),
   activityGoing: require('../../assets/activityGoing.png'),
   activityLike: require('../../assets/activityLike.png'),
@@ -17,4 +17,6 @@ export const imgAssets: any = {
   //搜索
   search: require('../../assets/search.png'),
   empty: require('../../assets/empty.png'),
+  // notFound
+  notFound: require('../../assets/404notFound.jpeg'),
 };

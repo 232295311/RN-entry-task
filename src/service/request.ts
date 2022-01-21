@@ -69,7 +69,9 @@ function handleData(doAction: Promise<any>) {
         return res.text();
       })
       .then(result => {
-        console.log('handleData result~~~~:', JSON.stringify(result));
+        // console.log('handleData result~~~~:', JSON.stringify(result));
+        console.log('handleData result~~~~:', 'gotResult');
+
         if (typeof result === 'string') {
           throw new Error(result);
         }
@@ -115,5 +117,5 @@ function buildParams(url: string, queryParams?: {} | string): string {
 }
 
 const handleError = (e: string) => {
-  console.log(e);
+  console.log('request handleError:', e);
 };

@@ -44,6 +44,7 @@ class UserCenter {
   }
 
   getUserToken() {
+    console.log('getUserToken', this.token);
     return this.token;
   }
 
