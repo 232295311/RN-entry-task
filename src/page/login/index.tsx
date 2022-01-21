@@ -15,7 +15,8 @@ import {
 
 import {imgAssets} from '../../config/ImgAsset';
 import I18n from '../../utils/I18n';
-
+import {scaleSize, setSpText2} from '../../utils/screen';
+import UserCenter from '../../store/UserCenter';
 //邮件输入框元素
 let emailInput: any = null;
 //密码输入框元素
@@ -73,28 +74,29 @@ export default (props: any) => {
       //   MsgCenter.sendMsg('showToast', {
       //     msg: '请输入邮箱',
       //   });
-      //   setTimeout(() => {
-      //     emailInput.focus();
-      //   }, 2000);
-      //   return false;
+      setTimeout(() => {
+        emailInput.focus();
+      }, 2000);
+      return false;
     }
     if (password === '') {
       //   MsgCenter.sendMsg('showToast', {
       //     msg: '请输入密码',
       //   });
-      //   setTimeout(() => {
-      //     passwordInput.focus();
-      //   }, 2000);
-      //   return false;
+      setTimeout(() => {
+        passwordInput.focus();
+      }, 2000);
+      return false;
     }
+    console.log('登陆前兆');
     return true;
   }
 
   //点击登录
   function signIn() {
-    // if (checkSignIn()) {
-    //   UserMgr.login(email, password);
-    // }
+    if (checkSignIn()) {
+      UserCenter.login(email, password);
+    }
   }
 
   return (
@@ -107,7 +109,9 @@ export default (props: any) => {
           keyboardVerticalOffset={100}>
           <ScrollView style={styles.container}>
             <View style={styles.desc}>
-              <Text style={styles.descText}>{I18n.t('find_the_most_loved_activities')}</Text>
+              <Text style={styles.descText}>
+                {I18n.t('find_the_most_loved_activities')}
+              </Text>
             </View>
             <View style={styles.title}>
               <Text style={styles.titleText}>{I18n.t('black_cat')}</Text>
@@ -159,7 +163,7 @@ export default (props: any) => {
           style={styles.body}
           underlayColor="#E5FF9F"
           onPress={signIn}>
-          <Text>{I18n.t('sign_in')}</Text>
+          <Text style={{fontSize: setSpText2(16)}}>{I18n.t('sign_in')}</Text>
         </TouchableHighlight>
       </ImageBackground>
     </SafeAreaView>
@@ -173,92 +177,92 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   header: {
-    flex: 507,
+    flex: scaleSize(507),
     backgroundColor: '#8560A9B3',
     alignItems: 'center',
     justifyContent: 'center',
   },
   body: {
-    flex: 65,
+    flex: scaleSize(65),
     backgroundColor: '#D5EF7F',
     alignItems: 'center',
     justifyContent: 'center',
   },
   desc: {
-    height: 90,
+    height: scaleSize(90),
     alignItems: 'center',
     justifyContent: 'flex-end',
   },
   descText: {
     color: '#D5EF7F',
-    fontSize: 16,
+    fontSize: setSpText2(16),
     fontWeight: 'bold',
   },
   title: {
-    height: 70,
+    height: scaleSize(70),
     alignItems: 'center',
     justifyContent: 'center',
   },
   titleText: {
     color: '#D5EF7F',
-    fontSize: 24,
+    fontSize: setSpText2(24),
     fontWeight: 'bold',
   },
   logoPanel: {
-    height: 110,
+    height: scaleSize(110),
     alignItems: 'center',
     justifyContent: 'center',
   },
   cat: {
-    height: 64,
-    width: 64,
+    height: scaleSize(64),
+    width: scaleSize(64),
   },
   layoutTop: {
-    height: 90,
+    height: scaleSize(90),
   },
   inputPanel: {
-    height: 140,
+    height: scaleSize(140),
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
   inputItem: {
-    height: 40,
-    width: 240,
+    height: scaleSize(40),
+    width: scaleSize(240),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    borderRadius: 40,
+    borderRadius: scaleSize(40),
     borderColor: '#D3C1E5',
-    borderWidth: 1,
+    borderWidth: scaleSize(1),
   },
   inputItemFocus: {
-    height: 40,
-    width: 240,
+    height: scaleSize(40),
+    width: scaleSize(240),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    borderRadius: 40,
+    borderRadius: scaleSize(40),
     borderColor: '#D3C1E5',
-    borderWidth: 1,
+    borderWidth: scaleSize(1),
     backgroundColor: '#FFFFFF33',
   },
   textInput: {
-    height: 40,
-    width: 180,
+    height: scaleSize(40),
+    width: scaleSize(180),
     color: '#453257',
     fontWeight: 'bold',
   },
   loginUser: {
-    height: 13.3,
-    width: 13.3,
-    marginHorizontal: 13,
+    height: scaleSize(13.3),
+    width: scaleSize(13.3),
+    marginHorizontal: scaleSize(13),
   },
   loginPassword: {
-    height: 14.7,
-    width: 8,
-    marginHorizontal: 15.3,
+    height: scaleSize(14.7),
+    width: scaleSize(8),
+    marginHorizontal: scaleSize(15.3),
   },
   layoutBot: {
-    height: 60,
+    height: scaleSize(60),
   },
 });

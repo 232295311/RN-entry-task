@@ -12,6 +12,7 @@ import {StackActions} from '@react-navigation/native';
  * goBack - (助手) 关闭当前页面并返回上一页
  * dispatch - 向路由分发一个事件
  */
+debugger;
 export default class NavigationUtil {
   private static navigation = null; //进入homePage的时候将被注入this.props.homePage
 
@@ -56,7 +57,7 @@ export default class NavigationUtil {
   /**
    * 重置到登陆页
    */
-  static resetToLoginPage(params: any) {
+  static resetToLoginPage(params?: any) {
     let {navigation} = params;
     if (!navigation) {
       navigation = NavigationUtil.navigation;

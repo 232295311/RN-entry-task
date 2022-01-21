@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import NavigationUtil from '../../navigation/NavigationUtil';
-import {getBoarding} from '../../utils/BoardingUtil';
+import UserCenter from '../../store/UserCenter';
 
 export default function (props: any) {
   let timer: NodeJS.Timeout | null = null;
@@ -14,7 +14,7 @@ export default function (props: any) {
   }, []);
 
   const doLaunch = async () => {
-    const boarding = await getBoarding();
+    const boarding = await UserCenter.checkLogin();
     const {navigation} = props;
     timer = setTimeout(() => {
       if (boarding) {
