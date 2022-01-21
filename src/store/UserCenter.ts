@@ -32,6 +32,7 @@ class UserCenter {
   }
 
   getUserInfo() {
+    console.log('this.userInfo', this.userInfo);
     return this.userInfo;
   }
 
@@ -60,8 +61,7 @@ class UserCenter {
           id: res.userId,
           email: email,
           username: email,
-          avatar:
-            'http://www.fzlkz.com/uploads/allimg/c150908/1441H34bA410-21295.jpg',
+          avatar: 'https://reactnative.dev/img/tiny_logo.png',
         },
         true,
       );
@@ -88,6 +88,8 @@ class UserCenter {
   async checkLogin() {
     const tmpUserInfo: any = await AsyncStorage.getItem('UserInfo');
     const tmpToken: any = await AsyncStorage.getItem('UserToken');
+    console.log('tmpUserInfo', tmpUserInfo);
+    console.log('tmpToken', tmpToken);
     if (tmpToken && tmpToken != '') {
       this.setUserToken(tmpToken);
       this.setUserInfo(JSON.parse(tmpUserInfo));

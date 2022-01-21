@@ -5,7 +5,9 @@ import UserCenter from '../../store/UserCenter';
 
 export default function (props: any) {
   let timer: NodeJS.Timeout | null = null;
-
+  // 给NavigationUtil注入
+  NavigationUtil.navigation = props.navigation;
+  
   useEffect(() => {
     doLaunch();
     return () => {

@@ -14,7 +14,7 @@ import {StackActions} from '@react-navigation/native';
  */
 debugger;
 export default class NavigationUtil {
-  private static navigation = null; //进入homePage的时候将被注入this.props.homePage
+  public static navigation: any | null = null; //进入homePage的时候将被注入this.props.homePage
 
   /**
    * 跳转到指定页面

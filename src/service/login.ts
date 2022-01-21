@@ -13,8 +13,7 @@ export const register = async (
     email: email,
     username: email,
     password: password,
-    avatar:
-      'http://www.fzlkz.com/uploads/allimg/c150908/1441H34bA410-21295.jpg',
+    avatar: 'https://reactnative.dev/img/tiny_logo.png',
   };
   const res: any = await post('join')(data)();
   return res;

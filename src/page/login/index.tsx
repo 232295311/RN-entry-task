@@ -17,6 +17,8 @@ import {imgAssets} from '../../config/ImgAsset';
 import I18n from '../../utils/I18n';
 import {scaleSize, setSpText2} from '../../utils/screen';
 import UserCenter from '../../store/UserCenter';
+// import SafeAreaViewPlus from 'react-native-safe-area-plus';
+
 //邮件输入框元素
 let emailInput: any = null;
 //密码输入框元素
@@ -100,7 +102,9 @@ export default (props: any) => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{
+        // backgroundColor: 'red'
+    }}>
       <ImageBackground style={styles.container} source={imgAssets.loginBg}>
         <KeyboardAvoidingView
           style={styles.header}
