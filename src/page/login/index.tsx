@@ -17,6 +17,8 @@ import {imgAssets} from '../../config/ImgAsset';
 import I18n from '../../utils/I18n';
 import {scaleSize, setSpText2} from '../../utils/screen';
 import UserCenter from '../../store/UserCenter';
+import {WToast} from 'react-native-smart-tip';
+import NavigationUtil from '../../navigation/NavigationUtil';
 // import SafeAreaViewPlus from 'react-native-safe-area-plus';
 
 //邮件输入框元素
@@ -95,9 +97,22 @@ export default (props: any) => {
   }
 
   //点击登录
-  function signIn() {
-    if (checkSignIn()) {
-      UserCenter.login(email, password);
+  async function signIn() {
+    try {
+      if (checkSignIn()) {
+        await UserCenter.login(email, password);
+        WToast.show({data: '登陆成功'});
+        NavigationUtil.resetToHomePage({});
+      }
+    } catch (e) {
+      if (e === 'error_user_not_found') {
+        //如果当前用户没有注册过，直接注册
+        await UserCenter.register(email, password);
+        WToast.show({data: '用户不存在，已自动注册并登陆'});
+        NavigationUtil.resetToHomePage({});
+        return;
+      }
+      WToast.show({data: '登陆出错' + e});
     }
   }
 

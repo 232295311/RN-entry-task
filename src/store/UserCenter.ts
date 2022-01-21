@@ -1,5 +1,6 @@
 import AsyncStorage from '../utils/AsyncStorage';
 import {login, register} from '../service/login';
+import {WToast} from 'react-native-smart-tip';
 /**
  * 存储用户个人信息，并暴露setUserInfo和getUserInfo等方法。
  * 存储用户token，暴露setUserToken和getUserToken等方法。
@@ -77,11 +78,6 @@ class UserCenter {
     if (!res.error) {
       this.setUserInfo(res.user, true);
       this.setUserToken(res.token, true);
-    } else {
-      //如果当前用户没有注册过，直接注册
-      if (res.error == 'error_user_not_found') {
-        this.register(email, password);
-      }
     }
   }
 

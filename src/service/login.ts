@@ -6,11 +6,6 @@ export const register = async (
   email: string,
   password: string,
 ): Promise<RegisterResp> => {
-  //   const data = new FormData();
-  //   data.append('email', email);
-  //   data.append('username', email);
-  //   data.append('password', password);
-  //   data.append('avatar',)
   const data: RegisterReq = {
     email: email,
     username: email,

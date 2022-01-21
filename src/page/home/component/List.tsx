@@ -74,7 +74,7 @@ export default function List() {
       setHasMore(ActivityCenter.getHasMore());
       setActivityList(ActivityCenter.getList());
     } catch (e) {
-      WToast.show({data: '出错'});
+      WToast.show({data: '获取活动数据出错' + e});
     }
   };
 

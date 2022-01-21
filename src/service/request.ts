@@ -14,10 +14,10 @@ const host = 'http://localhost:3000/api/v1/';
 export function get(api: string) {
   return async (params?: {}) => {
     const token = await userCenter.getUserToken();
-    // const {headers, url} = Constants;
     return handleData(
       fetch(buildParams(host + api, params), {
         headers: {
+          method: 'GET',
           'X-BLACKCAT-TOKEN': token || '',
         },
       }),
@@ -37,7 +37,6 @@ export function post(api: string) {
   return (params: {}) => {
     return async (queryParams?: {} | string) => {
       const token = await userCenter.getUserToken();
-      //   const {headers, url} = Constants;
       var data = params instanceof FormData ? params : JSON.stringify(params);
       return handleData(
         fetch(buildParams(host + api, queryParams), {
@@ -50,6 +49,24 @@ export function post(api: string) {
         }),
       );
     };
+  };
+}
+
+/**
+ * 发送del请求  类似python里
+ * @param api 要请求的接口
+ */
+export function del(api: string) {
+  return async (params?: {}) => {
+    const token = await userCenter.getUserToken();
+    return handleData(
+      fetch(buildParams(host + api, params), {
+        method: 'DELETE',
+        headers: {
+          'X-BLACKCAT-TOKEN': token || '',
+        },
+      }),
+    );
   };
 }
 
@@ -70,18 +87,12 @@ function handleData(doAction: Promise<any>) {
       })
       .then(result => {
         // console.log('handleData result~~~~:', JSON.stringify(result));
-        console.log('handleData result~~~~:', 'gotResult');
-
-        if (typeof result === 'string') {
-          throw new Error(result);
-        }
-        if (result.error) {
-          handleError(result.error);
-        }
-        if (result.statusCode === 403) {
-          // TODO: 跳转到我们的登陆页面
-          NavigationUtil.resetToLoginPage();
+        console.log('handleData result~~~~:');
+        if (result.error === 'invalid_token') {
+          NavigationUtil.resetToLoginPage({});
           return;
+        } else if (result.error) {
+          reject(result.error);
         }
         resolve(result);
       })
@@ -116,6 +127,10 @@ function buildParams(url: string, queryParams?: {} | string): string {
   return finalUrl;
 }
 
-const handleError = (e: string) => {
-  console.log('request handleError:', e);
-};
+// const handleError = (e: string) => {
+//   console.log('request handleError:', e);
+//   if (e === 'invalid_token') {
+//     NavigationUtil.resetToLoginPage({});
+//     return
+//   }
+// };

@@ -11,39 +11,53 @@ import NavigationUtil from '../../../navigation/NavigationUtil';
 import {imgAssets} from '../../../config/ImgAsset';
 import {scaleSize, setSpText2} from '../../../utils/screen';
 import ActivityCenter from '../../../store/ActivityCenter';
+import moment from 'moment-timezone';
+import {WToast} from 'react-native-smart-tip';
 
-export default function ActivityItem(props: any) {
-  const [isGoing, setIsGoing] = useState<boolean>(props.me_going); //是否已经参加
+export default function ActivityItem(props: {data: EventDetail}) {
+  const [isGoing, setIsGoing] = useState<boolean>(props.data.me_going); //是否已经参加
   const [isLike, setIsLike] = useState<boolean>(props.data.me_likes); //是否喜欢
   const [imageUri, setImageUri] = useState<any>({
-    uri: props.data.images.length > 0 && props.data.images[0],
+    uri: props.data.images!.length > 0 ? props.data.images![0] : '',
   });
   //点击Going
-  async function clickGo(go: boolean) {
-    if (go) {
-      await ActivityCenter.joinEvent({
-        id: props.data.id,
-      });
-    } else {
-      await ActivityCenter.quitEvent({
-        id: props.data.id,
-      });
+  async function clickJoin(go: boolean) {
+    try {
+      if (go) {
+        await ActivityCenter.joinEvent({
+          id: props.data.id,
+        });
+        WToast.show({data: 'operation success'});
+      } else {
+        await ActivityCenter.quitEvent({
+          id: props.data.id,
+        });
+        WToast.show({data: 'cancel participating success'});
+      }
+      setIsGoing(go);
+    } catch (e) {
+      WToast.show({data: e});
     }
-    setIsGoing(go);
   }
 
   //点击like
   async function clickLike(like: boolean) {
-    if (like) {
-      await ActivityCenter.likeEvent({
-        id: props.data.id,
-      });
-    } else {
-      await ActivityCenter.disLikeEvent({
-        id: props.data.id,
-      });
+    try {
+      if (like) {
+        await ActivityCenter.likeEvent({
+          id: props.data.id,
+        });
+        WToast.show({data: 'operation success'});
+      } else {
+        await ActivityCenter.disLikeEvent({
+          id: props.data.id,
+        });
+        WToast.show({data: 'cancel liking success'});
+      }
+      setIsLike(like);
+    } catch (e) {
+      WToast.show({data: e});
     }
-    setIsLike(like);
   }
 
   //点击进详情
@@ -64,7 +78,7 @@ export default function ActivityItem(props: any) {
           <View
             style={styles.actionItem}
             onTouchEnd={() => {
-              clickGo(false);
+              clickJoin(false);
             }}>
             <Image style={styles.goIcon} source={imgAssets.activityGoing} />
             <Text style={styles.goText}>i am going</Text>
@@ -77,7 +91,7 @@ export default function ActivityItem(props: any) {
           <View
             style={styles.actionItem}
             onTouchEnd={() => {
-              clickGo(true);
+              clickJoin(true);
             }}>
             <Image style={styles.goIcon} source={imgAssets.activityGo} />
             <Text style={styles.goText}>{props.data.goings_count} Going</Text>
@@ -120,7 +134,7 @@ export default function ActivityItem(props: any) {
 
   //渲染描述
   function renderDesc() {
-    if (props.data.images.length > 0) {
+    if (props.data.images!.length > 0) {
       return (
         <View style={styles.descImg}>
           <Text numberOfLines={4} style={styles.descText}>
@@ -141,7 +155,7 @@ export default function ActivityItem(props: any) {
 
   //渲染图片
   function renderPic() {
-    if (props.data.images.length > 0) {
+    if (props.data.images!.length > 0) {
       return (
         <View style={styles.picPanel}>
           <Image
@@ -160,18 +174,18 @@ export default function ActivityItem(props: any) {
 
   //渲染日期
   function renderDate() {
-    if (props.data.images.length > 0) {
+    if (props.data.images!.length > 0) {
       return (
         <Text style={styles.timeText}>
-          {/* {DateUtil.formatDMY(props.data.begin_time)} -{' '}
-          {DateUtil.formatDMY(props.data.end_time)} */}
+          {moment(props.data.begin_time).format('DD MMMM YYYY')} -{' '}
+          {moment(props.data.end_time).format('DD MMMM YYYY')}
         </Text>
       );
     } else {
       return (
         <Text style={styles.timeText}>
-          {/* {DateUtil.formatDMYHM(props.data.begin_time)} -{' '}
-          {DateUtil.formatDMYHM(props.data.end_time)} */}
+          {moment(props.data.begin_time).format('DD MMMM YYYY hh:mm')} -{' '}
+          {moment(props.data.begin_time).format('DD MMMM YYYY hh:mm')}
         </Text>
       );
     }
@@ -215,9 +229,6 @@ export default function ActivityItem(props: any) {
       </View>
     </TouchableOpacity>
   );
-}
-function params(arg0: string, params: any, arg2: {id: number}) {
-  throw new Error('Function not implemented.');
 }
 
 //样式定义

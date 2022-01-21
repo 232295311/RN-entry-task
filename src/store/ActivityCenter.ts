@@ -1,5 +1,6 @@
 import AsyncStorage from '../utils/AsyncStorage';
 import * as Activity from '../service/activity';
+
 /**
  * 存储App内活动信息，
  * 可做出 获取活动，获取channel，喜欢活动，不喜欢活动，参加活动，不参加活动 等异步操作
@@ -56,62 +57,61 @@ class ActivityCenter {
 
   //参与活动
   async joinEvent(params: JoinEventReq) {
+    // try {
     const res = await Activity.joinEvent(params);
-    if (!res.error) {
+    if (res === '') {
+      // 成功时，返回的res是空
       const item = this.getItemById(params.id);
       if (item) {
         item.goings_count = item.goings_count + 1;
         item.me_going = true;
-        // MsgCenter.sendMsg('getEventsSuccess', '');
       }
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
   //不参与活动
   async quitEvent(params: QuitEventReq) {
     const res = await Activity.quitEvent(params);
-    if (!res.error) {
+    if (res === '') {
+      // 成功时，返回的res是空
       const item = this.getItemById(params.id);
       if (item) {
         item.goings_count = item.goings_count - 1;
         item.me_going = false;
-        // MsgCenter.sendMsg('getEventsSuccess', '');
       }
-      return true;
+      return Promise.resolve(res);
+    } else {
+      return Promise.reject(new Error(''));
     }
-    return false;
   }
 
   //参与活动
   async likeEvent(params: LikeEventReq) {
     const res = await Activity.likeEvent(params);
-    if (!res.error) {
+    if (res === '') {
+      // 成功时，返回的res是空
       const item = this.getItemById(params.id);
       if (item) {
         item.likes_count = item.likes_count + 1;
         item.me_likes = true;
-        // MsgCenter.sendMsg('getEventsSuccess', '');
       }
-      return true;
     }
-    return false;
   }
 
   //不参与活动
   async disLikeEvent(params: DisLikeEventReq) {
     const res = await Activity.disLikeEvent(params);
-    if (!res.error) {
+    if (res === '') {
+      // 成功时，返回的res是空
       const item = this.getItemById(params.id);
       if (item) {
         item.likes_count = item.likes_count - 1;
         item.me_likes = false;
-        // MsgCenter.sendMsg('getEventsSuccess', '');
       }
-      return true;
     }
-    return false;
   }
 
   //根据id在list中找到对应的Item

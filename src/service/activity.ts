@@ -1,7 +1,7 @@
 /**
  * HomePage接口
  */
-import {post, get} from './request';
+import {post, get, del} from './request';
 
 //获取活动信息
 const getEvents = async (params: GetEventsReq): Promise<GetEventsResp> => {
@@ -37,7 +37,7 @@ const joinEvent = async (params: JoinEventReq): Promise<JoinEventResp> => {
 
 //用户点击不参加活动
 const quitEvent = async (params: QuitEventReq): Promise<QuitEventResp> => {
-  const res: any = await post('events/' + params.id + '/participants')({})();
+  const res: any = await del('events/' + params.id + '/participants')();
   return res;
 };
 
@@ -51,7 +51,7 @@ const likeEvent = async (params: LikeEventReq): Promise<LikeEventResp> => {
 const disLikeEvent = async (
   params: DisLikeEventReq,
 ): Promise<DisLikeEventResp> => {
-  const res: any = await post('events/' + params.id + '/likes')({})();
+  const res: any = await del('events/' + params.id + '/likes')();
   return res;
 };
 
