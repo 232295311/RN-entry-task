@@ -37,19 +37,23 @@ export default function SearchResult() {
     };
   }, []);
 
-  async function clearSearch() {
-    await ActivityCenter.searchEvents({
-      channels: 0,
-      after: 0,
-      before: 0,
-    });
-    // 触发getEventsSuccess事件更新List页面数据
-    EventBus.getInstance().fireEvent('getEventsSuccess');
-    setVisible(false);
-  }
+  const clearSearch = async () => {
+    try {
+      await ActivityCenter.searchEvents({
+        channels: 0,
+        after: 0,
+        before: 0,
+      });
+      // 触发getEventsSuccess事件更新List页面数据
+      EventBus.getInstance().fireEvent('getEventsSuccess');
+      setVisible(false);
+    } catch (e) {
+      WToast.show({data: 'clearSearch失败' + e});
+    }
+  };
 
   //渲染查询结果
-  function renderResult() {
+  const renderResult = () => {
     if (visible) {
       return (
         <View style={styles.result}>
@@ -72,7 +76,7 @@ export default function SearchResult() {
     } else {
       return null;
     }
-  }
+  };
 
   return <>{renderResult()}</>;
 }

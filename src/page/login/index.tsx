@@ -19,7 +19,6 @@ import {scaleSize, setSpText2} from '../../utils/screen';
 import UserCenter from '../../store/UserCenter';
 import {WToast} from 'react-native-smart-tip';
 import NavigationUtil from '../../navigation/NavigationUtil';
-// import SafeAreaViewPlus from 'react-native-safe-area-plus';
 
 //邮件输入框元素
 let emailInput: any = null;
@@ -33,68 +32,63 @@ export default (props: any) => {
   const [passwordStyle, setPasswordStyle] = useState<any>(styles.inputItem);
 
   //绑定邮件元素
-  function bindEmail(el: any) {
+  const bindEmail = (el: any) => {
     emailInput = el;
-  }
+  };
 
   //绑定密码元素
-  function bindPassword(el: any) {
+  const bindPassword = (el: any) => {
     passwordInput = el;
-  }
+  };
 
   //用户输入email
-  function emailChange(value: string) {
+  const emailChange = (value: string) => {
     setEmail(value);
-  }
+  };
 
   //用户输入密码
-  function passwordChange(value: string) {
+  const passwordChange = (value: string) => {
     setPassword(value);
-  }
+  };
 
   //焦点进入email
-  function emailFocus() {
+  const emailFocus = () => {
     setEmailStyle(styles.inputItem);
-  }
+  };
 
   //焦点离开email
-  function emailBlur() {
+  const emailBlur = () => {
     setEmailStyle(styles.inputItemFocus);
-  }
+  };
 
   //焦点进入password
-  function passwordFocus() {
+  const passwordFocus = () => {
     setPasswordStyle(styles.inputItem);
-  }
+  };
 
   //焦点离开password
-  function passwordBlur() {
+  const passwordBlur = () => {
     setPasswordStyle(styles.inputItemFocus);
-  }
+  };
 
   //email和密码检查
-  function checkSignIn() {
+  const checkSignIn = () => {
     if (email === '') {
-      //   MsgCenter.sendMsg('showToast', {
-      //     msg: '请输入邮箱',
-      //   });
+      WToast.show({data: 'please input email'});
       setTimeout(() => {
-        emailInput.focus();
+        emailInput.focus(); //用refs触发聚焦事件
       }, 2000);
       return false;
     }
     if (password === '') {
-      //   MsgCenter.sendMsg('showToast', {
-      //     msg: '请输入密码',
-      //   });
+      WToast.show({data: 'please input password'});
       setTimeout(() => {
         passwordInput.focus();
       }, 2000);
       return false;
     }
-    console.log('登陆前兆');
     return true;
-  }
+  };
 
   //点击登录
   async function signIn() {

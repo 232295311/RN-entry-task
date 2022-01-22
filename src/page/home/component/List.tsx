@@ -33,7 +33,7 @@ export default function List() {
   }, []);
 
   //布局类型 分为有图片和没有图片两种
-  function listLayout() {
+  const listLayout = () => {
     return new LayoutProvider(
       index => {
         const images = activityList[index].images || [];
@@ -58,20 +58,20 @@ export default function List() {
         }
       },
     );
-  }
+  };
 
   //列表数据
-  function listData() {
+  const listData = () => {
     const dataProvider = new DataProvider((r1, r2) => {
       return r1 !== r2;
     });
     return dataProvider.cloneWithRows(activityList);
-  }
+  };
 
   //不同类型渲染方式
-  function listRowRender(type: any, data: EventDetail) {
+  const listRowRender = (type: any, data: EventDetail) => {
     return <ActivityItem data={data}></ActivityItem>;
-  }
+  };
 
   //获取列表数据
   const loadList = async () => {
@@ -81,7 +81,7 @@ export default function List() {
       setHasMore(ActivityCenter.getHasMore());
       setActivityList(ActivityCenter.getList());
     } catch (e) {
-      WToast.show({data: '获取活动数据出错' + e});
+      WToast.show({data: 'load events data failed, please try again' + e});
     }
   };
   //获取channel数据
@@ -89,21 +89,20 @@ export default function List() {
     try {
       const res = await ChannelCenter.getChannels();
     } catch (e) {
-      WToast.show({data: '获取channel数据出错:' + e});
+      WToast.show({data: 'load channels data failed, please try again' + e});
     }
   };
 
   //下拉加载更多
-  function loadMore() {
+  const loadMore = () => {
     console.log('进来loadMore了', hasMore);
     if (hasMore) {
       //拉活动列表
-      console.log('homepage~~~~loadMore');
       loadList();
     } else {
-      //   MsgCenter.sendMsg('showToast', {msg: 'no more events'});
+      WToast.show({data: 'no more events'});
     }
-  }
+  };
 
   //渲染列表
   function renderList() {

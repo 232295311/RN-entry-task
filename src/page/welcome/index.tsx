@@ -1,13 +1,15 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, ImageBackground, Image} from 'react-native';
 import NavigationUtil from '../../navigation/NavigationUtil';
 import UserCenter from '../../store/UserCenter';
+import {imgAssets} from '../../config/ImgAsset';
+import {scaleSize} from '../../utils/screen';
 
 export default function (props: any) {
   let timer: NodeJS.Timeout | null = null;
   // 给NavigationUtil注入
   NavigationUtil.navigation = props.navigation;
-  
+
   useEffect(() => {
     doLaunch();
     return () => {
@@ -24,19 +26,29 @@ export default function (props: any) {
       } else {
         NavigationUtil.resetToLoginPage({navigation});
       }
-    }, 200);
+    }, 2000);
   };
 
   return (
-    <View style={styles.container}>
-      <Text>欢迎页面</Text>
-    </View>
+    <ImageBackground style={styles.container} source={imgAssets.loginBg}>
+      <Image style={styles.cat} source={imgAssets.loginCat}></Image>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    height: '100%',
+    width: '100%',
     flex: 1,
-    padding: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    opacity: 0.4,
+  },
+  cat: {
+    marginTop: scaleSize(-140),
+    height: scaleSize(100),
+    width: scaleSize(100),
+    opacity: 1,
   },
 });

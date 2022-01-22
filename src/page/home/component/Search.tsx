@@ -59,16 +59,20 @@ export default function Search(props: SearchProps) {
       WToast.show({data: 'Please choose Date or Channel.'});
       return;
     }
-    const date = dateMap[chooseDate];
-    await ActivityCenter.searchEvents({
-      channels: chooseChannel,
-      after: moment(date.after).add(8, 'h').valueOf(), //搜索时需要把东八区时间转成UTC标准时间
-      before: moment(date.before).add(8, 'h').valueOf(), //搜索时需要把东八区时间转成UTC标准时间
-    });
-    props.setOpenSearch(false);
-    // 触发展示SearchResult组件的事件 和 List组件更新事件
-    EventBus.getInstance().fireEvent('showSearchResult');
-    EventBus.getInstance().fireEvent('getEventsSuccess');
+    try {
+      const date = dateMap[chooseDate];
+      await ActivityCenter.searchEvents({
+        channels: chooseChannel,
+        after: moment(date.after).add(8, 'h').valueOf(), //搜索时需要把东八区时间转成UTC标准时间
+        before: moment(date.before).add(8, 'h').valueOf(), //搜索时需要把东八区时间转成UTC标准时间
+      });
+      props.setOpenSearch(false);
+      // 触发展示SearchResult组件的事件 和 List组件更新事件
+      EventBus.getInstance().fireEvent('showSearchResult');
+      EventBus.getInstance().fireEvent('getEventsSuccess');
+    } catch (e) {
+      WToast.show({data: 'search failed, please try again.' + e});
+    }
   };
   //渲染日期数据
   const renderDateItem = () => {

@@ -31,10 +31,10 @@ export default function ActivityItem(props: {data: EventDetail}) {
     }
   }, []);
 
-  //点击Going
-  async function clickJoin(go: boolean) {
+  //点击Going参加活动
+  const clickJoin = async (isGoing: boolean) => {
     try {
-      if (go) {
+      if (isGoing) {
         await ActivityCenter.joinEvent({
           id: props.data.id,
         });
@@ -45,16 +45,16 @@ export default function ActivityItem(props: {data: EventDetail}) {
         });
         WToast.show({data: 'cancel participating success'});
       }
-      setIsGoing(go);
+      setIsGoing(isGoing);
     } catch (e) {
       WToast.show({data: e});
     }
-  }
+  };
 
-  //点击like
-  async function clickLike(like: boolean) {
+  //点击爱心
+  const clickLike = async (isLike: boolean) => {
     try {
-      if (like) {
+      if (isLike) {
         await ActivityCenter.likeEvent({
           id: props.data.id,
         });
@@ -65,24 +65,24 @@ export default function ActivityItem(props: {data: EventDetail}) {
         });
         WToast.show({data: 'cancel liking success'});
       }
-      setIsLike(like);
+      setIsLike(isLike);
     } catch (e) {
       WToast.show({data: e});
     }
-  }
+  };
 
-  //点击进详情
-  function clickItem() {
+  //点击进入详情页面 传参id
+  const clickItem = () => {
     NavigationUtil.goPage(
       {
         id: props.data.id,
       },
       'DetailPage',
     );
-  }
+  };
 
   //渲染go逻辑
-  function renderGo() {
+  const renderGo = () => {
     if (isGoing) {
       return (
         <TouchableWithoutFeedback onPress={e => e.preventDefault()}>
@@ -110,10 +110,10 @@ export default function ActivityItem(props: {data: EventDetail}) {
         </TouchableWithoutFeedback>
       );
     }
-  }
+  };
 
   //渲染like逻辑
-  function renderLike() {
+  const renderLike = () => {
     if (isLike) {
       return (
         <TouchableWithoutFeedback onPress={e => e.preventDefault()}>
@@ -141,10 +141,10 @@ export default function ActivityItem(props: {data: EventDetail}) {
         </TouchableWithoutFeedback>
       );
     }
-  }
+  };
 
-  //渲染描述
-  function renderDesc() {
+  //渲染详细描述
+  const renderDesc = () => {
     if (props.data.images!.length > 0) {
       return (
         <View style={styles.descImg}>
@@ -162,10 +162,10 @@ export default function ActivityItem(props: {data: EventDetail}) {
         </View>
       );
     }
-  }
+  };
 
   //渲染图片
-  function renderPic() {
+  const renderPic = () => {
     if (props.data.images!.length > 0) {
       return (
         <View style={styles.picPanel}>
@@ -181,10 +181,10 @@ export default function ActivityItem(props: {data: EventDetail}) {
     } else {
       return null;
     }
-  }
+  };
 
   //渲染日期
-  function renderDate() {
+  const renderDate = () => {
     if (props.data.images!.length > 0) {
       return (
         <Text style={styles.timeText}>
@@ -200,7 +200,7 @@ export default function ActivityItem(props: {data: EventDetail}) {
         </Text>
       );
     }
-  }
+  };
 
   return (
     <TouchableOpacity
