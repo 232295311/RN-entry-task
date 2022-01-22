@@ -3,23 +3,33 @@ import {SafeAreaView, StyleSheet, Text, Button} from 'react-native';
 // import NavigationBar from 'react-native-navbar-plus';
 import {WToast} from 'react-native-smart-tip';
 import CommonHeader from '../../commonComponent/CommonHeader';
-import SideMenu from 'react-native-side-menu';
+import Drawer from 'react-native-drawer';
 import SearchResult from './component/SearchResult';
 import List from './component/List';
+import Search from './component/Search';
 
 export default (props: any) => {
   useEffect(() => {}, []);
-  const menu = <Text style={{marginTop: 22}}>aaa</Text>;
+
+  const [openSearch, setOpenSearch] = useState<boolean>(false);
   return (
     // <SafeAreaView>
-    <SideMenu
-      menu={menu} //抽屉内的组件
-      isOpen={false}>
-      <CommonHeader pageType="HomePage"></CommonHeader>
+    <Drawer
+      type={'displace'}
+      content={<Search setOpenSearch={setOpenSearch}/>} //抽屉内的组件
+      open={openSearch}
+      
+      openDrawerOffset={100}
+      onClose={() => {
+        setOpenSearch(false);
+      }}>
+      <CommonHeader
+        pageType="HomePage"
+        setOpenSearch={setOpenSearch}></CommonHeader>
 
       <SearchResult />
       <List />
-    </SideMenu>
+    </Drawer>
     // </SafeAreaView>
   );
 };

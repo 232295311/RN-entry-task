@@ -5,6 +5,9 @@ import {scaleSize, setSpText2} from '../../../utils/screen';
 import ActivityItem from './ActivityItem';
 import Empty from './Empty';
 import {WToast} from 'react-native-smart-tip';
+import ChannelCenter from '../../../store/ChannelCenter';
+//@ts-ignore
+import EventBus from 'react-native-event-bus';
 
 export default function List() {
   const [total, setTotal] = useState<number>(ActivityCenter.getTotal());
@@ -15,14 +18,18 @@ export default function List() {
 
   useEffect(() => {
     loadList();
-    // const id1 = MsgCenter.addMsgListener('getEventsSuccess', (data: any) => {
-    //   setTotal(ActivityCenter.getTotal());
-    //   setHasMore(ActivityCenter.getHasMore());
-    //   setActivityList(ActivityCenter.getList());
-    // });
-    // return () => {
-    //   MsgCenter.removeMsgListener(id1);
-    // };
+    loadChannelList();
+    const listener = EventBus.getInstance().addListener(
+      'getEventsSuccess',
+      () => {
+        setTotal(ActivityCenter.getTotal());
+        setHasMore(ActivityCenter.getHasMore());
+        setActivityList(ActivityCenter.getList());
+      },
+    );
+    return () => {
+      EventBus.getInstance().removeListener(listener);
+    };
   }, []);
 
   //布局类型 分为有图片和没有图片两种
@@ -66,7 +73,7 @@ export default function List() {
     return <ActivityItem data={data}></ActivityItem>;
   }
 
-  //获取数据
+  //获取列表数据
   const loadList = async () => {
     try {
       const res = await ActivityCenter.getEvents();
@@ -75,6 +82,14 @@ export default function List() {
       setActivityList(ActivityCenter.getList());
     } catch (e) {
       WToast.show({data: '获取活动数据出错' + e});
+    }
+  };
+  //获取channel数据
+  const loadChannelList = async () => {
+    try {
+      const res = await ChannelCenter.getChannels();
+    } catch (e) {
+      WToast.show({data: '获取channel数据出错:' + e});
     }
   };
 

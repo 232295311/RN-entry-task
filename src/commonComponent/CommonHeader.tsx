@@ -6,6 +6,8 @@ import UserCenter from '../store/UserCenter';
 import {scaleSize, setSpText2} from '../utils/screen';
 interface HeaderProps {
   pageType: string; //当前header所在页面类型
+  // openSearch: boolean;
+  setOpenSearch(checked: boolean): void;
 }
 export default function CommonHeader(props: HeaderProps) {
   //渲染主界面按钮
@@ -18,7 +20,7 @@ export default function CommonHeader(props: HeaderProps) {
       );
     } else {
       return (
-        <View style={styles.search} onTouchEnd={gotoSearch}>
+        <View style={styles.search} onTouchEnd={touchSearch}>
           <Image style={styles.searchIcon} source={imgAssets.headerSearch} />
         </View>
       );
@@ -26,7 +28,9 @@ export default function CommonHeader(props: HeaderProps) {
   }
 
   //跳转查询界面
-  function gotoSearch() {
+  function touchSearch() {
+    // console.log('touchSearch', props.openSearch);
+    props.setOpenSearch(true);
     // MsgCenter.sendMsg('showSearch', '');
   }
 

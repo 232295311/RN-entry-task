@@ -50,9 +50,7 @@ interface GetEventsResp {
   hasMore: boolean;
   error?: string;
 }
-interface GetChannelsResp {
-  error?: string;
-}
+
 interface JoinEventReq {
   id: number;
 }

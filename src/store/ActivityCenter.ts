@@ -1,4 +1,5 @@
-import AsyncStorage from '../utils/AsyncStorage';
+// import AsyncStorage from '../utils/AsyncStorage';
+import moment from 'moment';
 import * as Activity from '../service/activity';
 
 /**
@@ -41,7 +42,7 @@ class ActivityCenter {
     return false;
   }
 
-  //搜索活动信息 点击搜索后调用
+  //搜索活动信息 点击搜索后调用 也会改变类中list
   async searchEvents(params: GetEventsReq) {
     this.channels = params.channels || 0;
     this.after = params.after || 0;
@@ -82,9 +83,9 @@ class ActivityCenter {
         item.goings_count = item.goings_count - 1;
         item.me_going = false;
       }
-      return Promise.resolve(res);
+      return true;
     } else {
-      return Promise.reject(new Error(''));
+      return false;
     }
   }
 
@@ -98,6 +99,9 @@ class ActivityCenter {
         item.likes_count = item.likes_count + 1;
         item.me_likes = true;
       }
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -111,6 +115,9 @@ class ActivityCenter {
         item.likes_count = item.likes_count - 1;
         item.me_likes = false;
       }
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -177,22 +184,20 @@ class ActivityCenter {
     return this.channels;
   }
 
-  //开始时间
-  getAfter() {
+  //获取开始时间 需要传入格式化moment的字符串
+  getAfter(formatString: string) {
     if (this.after === 0) {
       return '-';
     }
-    // return DateUtil.formatDM(this.after);
-    return this.after;
+    return moment(this.after).format(formatString);
   }
 
-  //结束时间
-  getBefore() {
+  //获取结束时间 需要传入格式化moment的字符串
+  getBefore(formatString: string) {
     if (this.before === 0) {
       return '-';
     }
-    // return DateUtil.formatDM(this.before);
-    return this.before;
+    return moment(this.after).format(formatString);
   }
 }
 

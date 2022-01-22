@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -20,6 +20,17 @@ export default function ActivityItem(props: {data: EventDetail}) {
   const [imageUri, setImageUri] = useState<any>({
     uri: props.data.images!.length > 0 ? props.data.images![0] : '',
   });
+
+  useEffect(() => {
+    if (props.data.images!.length > 0) {
+      setImageUri({
+        uri: props.data.images![0],
+      });
+    } else {
+      setImageUri(imgAssets.notFound);
+    }
+  }, []);
+
   //点击Going
   async function clickJoin(go: boolean) {
     try {
