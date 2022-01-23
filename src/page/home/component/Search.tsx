@@ -4,7 +4,7 @@ import {StyleSheet, View, Image, Text, TouchableHighlight} from 'react-native';
 import {imgAssets} from '../../../config/ImgAsset';
 import {scaleSize, setSpText2} from '../../../utils/screen';
 import ActivityCenter from '../../../store/ActivityCenter';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import ChannelCenter from '../../../store/ChannelCenter';
 import {WToast} from 'react-native-smart-tip';
 //@ts-ignore

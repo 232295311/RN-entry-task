@@ -3,12 +3,16 @@ import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import CommonHeader from '../../commonComponent/CommonHeader';
 import DetailCenter from '../../store/DetailCenter';
 import {WToast} from 'react-native-smart-tip';
+import DetailTop from './components/DetailTop';
+import ScrollTab from './components/ScrollTab';
+import {scaleSize} from '../../utils/screen';
 export default (props: any) => {
   const id = props.route.params.id;
   const [detail, setDetail] = useState<EventDetail | {}>({});
   const [participants, setParticipants] = useState<Participants[]>([]);
   const [comments, setComments] = useState<CommentDetail[]>([]);
   useEffect(() => {
+    console.log('id~~~~~~', id);
     if (id) {
       initPage(id);
     } else {
@@ -32,13 +36,14 @@ export default (props: any) => {
     <View style={styles.root}>
       <CommonHeader pageType="DetailPage"></CommonHeader>
       <View style={styles.DetailTop}>
-        <Text>{JSON.stringify(detail)}</Text>
+        <DetailTop data={detail}></DetailTop>
       </View>
       <View style={styles.ScrollTab}>
-        <Text>{JSON.stringify(participants)}</Text>
+        <ScrollTab type={'Details'}></ScrollTab>
+        {/* <Text>{JSON.stringify(participants)}</Text> */}
       </View>
       <View style={styles.Desc}>
-        <Text>{JSON.stringify(comments)}</Text>
+        {/* <Text>{JSON.stringify(comments)}</Text> */}
       </View>
       <View style={styles.When}></View>
       <View style={styles.Where}></View>
@@ -54,8 +59,15 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  DetailTop: {},
-  ScrollTab: {},
+  DetailTop: {
+    paddingBottom: scaleSize(12),
+    borderBottomWidth: scaleSize(1),
+    borderBottomColor: '#E8E8E8',
+  },
+  ScrollTab: {
+    borderBottomWidth: scaleSize(1),
+    borderBottomColor: '#E8E8E8',
+  },
   Desc: {},
   When: {},
   Where: {},

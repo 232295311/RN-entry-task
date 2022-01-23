@@ -195,8 +195,8 @@ export default function ActivityItem(props: {data: EventDetail}) {
     } else {
       return (
         <Text style={styles.timeText}>
-          {moment(props.data.begin_time).format('DD MMMM YYYY hh:mm')} -{' '}
-          {moment(props.data.begin_time).format('DD MMMM YYYY hh:mm')}
+          {moment(props.data.begin_time).format('DD MMMM YYYY HH:mm')} -{' '}
+          {moment(props.data.begin_time).format('DD MMMM YYYY HH:mm')}
         </Text>
       );
     }
