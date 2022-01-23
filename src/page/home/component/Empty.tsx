@@ -10,7 +10,7 @@ export default function Empty() {
     </View>
   );
 }
-//样式定义
+
 const styles = StyleSheet.create({
   empty: {
     height: scaleSize(400),

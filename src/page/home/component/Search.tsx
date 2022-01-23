@@ -209,7 +209,7 @@ export default function Search(props: SearchProps) {
   );
 }
 
-//样式定义
+
 const styles = StyleSheet.create({
   search: {
     height: '100%',

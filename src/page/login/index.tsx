@@ -183,7 +183,7 @@ export default (props: any) => {
   );
 };
 
-//定义样式
+
 const styles = StyleSheet.create({
   container: {
     height: '100%',

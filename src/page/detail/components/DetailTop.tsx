@@ -19,7 +19,7 @@ export default (props: any) => {
   };
   return (
     <>
-      {Object.keys(data).length > 0 && (
+      {data && (
         <View style={styles.container}>
           <View style={styles.channelName}>
             <Text style={styles.channelNameText}>{data.channel.name}</Text>

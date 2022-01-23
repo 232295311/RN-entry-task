@@ -10,7 +10,6 @@ interface ScrollTabProps {
 export default (props: ScrollTabProps) => {
   const activeType = props.type;
   const renderDetail = (type: string) => {
-    console.log(type);
     return (
       <>
         <MaterialCommunityIcons
@@ -112,20 +111,4 @@ const styles = StyleSheet.create({
     paddingRight: scaleSize(16),
   },
 });
-// import React, { useState } from 'react';
-// import {
-//     SafeAreaView,
-//     StyleSheet,
-//     View,
-// } from 'react-native';
-// export default (props: any) => {
-//     return (
-//         <SafeAreaView style={styles.root}>
-//         </SafeAreaView>
-//     );
-// };
-// const styles = StyleSheet.create({
-//     root: {
-//         flex: 1,
-//     },
-// });
+

@@ -81,7 +81,7 @@ export default function SearchResult() {
   return <>{renderResult()}</>;
 }
 
-//样式定义
+
 const styles = StyleSheet.create({
   result: {
     height: scaleSize(68),

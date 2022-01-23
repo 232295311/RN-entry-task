@@ -5,10 +5,12 @@ import DetailCenter from '../../store/DetailCenter';
 import {WToast} from 'react-native-smart-tip';
 import DetailTop from './components/DetailTop';
 import ScrollTab from './components/ScrollTab';
+import Desc from './components/Desc';
+import When from './components/When';
 import {scaleSize} from '../../utils/screen';
 export default (props: any) => {
   const id = props.route.params.id;
-  const [detail, setDetail] = useState<EventDetail | {}>({});
+  const [detail, setDetail] = useState<EventDetail | null>(null);
   const [participants, setParticipants] = useState<Participants[]>([]);
   const [comments, setComments] = useState<CommentDetail[]>([]);
   useEffect(() => {
@@ -40,12 +42,13 @@ export default (props: any) => {
       </View>
       <View style={styles.ScrollTab}>
         <ScrollTab type={'Details'}></ScrollTab>
-        {/* <Text>{JSON.stringify(participants)}</Text> */}
       </View>
       <View style={styles.Desc}>
-        {/* <Text>{JSON.stringify(comments)}</Text> */}
+        <Desc data={detail}></Desc>
       </View>
-      <View style={styles.When}></View>
+      <View style={styles.When}>
+        <When data={detail}></When>
+      </View>
       <View style={styles.Where}></View>
       <View style={styles.Participants}></View>
       <View style={styles.Comments}></View>
@@ -58,6 +61,7 @@ const styles = StyleSheet.create({
   root: {
     width: '100%',
     height: '100%',
+    backgroundColor: 'rgba(250, 249, 252,1)',
   },
   DetailTop: {
     paddingBottom: scaleSize(12),
@@ -68,8 +72,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: scaleSize(1),
     borderBottomColor: '#E8E8E8',
   },
-  Desc: {},
-  When: {},
+  Desc: {
+    borderBottomWidth: scaleSize(1),
+    borderBottomColor: '#E8E8E8',
+    paddingBottom: scaleSize(20),
+  },
+  When: {
+    borderBottomWidth: scaleSize(1),
+    borderBottomColor: '#E8E8E8',
+  },
   Where: {},
   Participants: {},
   Comments: {},

@@ -242,7 +242,6 @@ export default function ActivityItem(props: {data: EventDetail}) {
   );
 }
 
-//样式定义
 const styles = StyleSheet.create({
   activityItem: {
     width: '100%',

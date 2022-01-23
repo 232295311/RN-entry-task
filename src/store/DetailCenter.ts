@@ -10,7 +10,7 @@ import * as Activity from '../service/activity';
 import * as DetailServices from '../service/detail';
 
 class DetailCenter {
-  private detail: EventDetail | {} = {};
+  private detail: EventDetail | null = null;
   private participants: Participants[] = [];
   private comments: CommentDetail[] = [];
 
