@@ -12,7 +12,7 @@ export default function App() {
    */
   return (
     <WRootToastApp>
-      <SafeAreaView style={{height: '100%', width: '100%'}}>
+      <SafeAreaView style={{flex: 1, width: '100%'}}>
         <AppNavigators />
       </SafeAreaView>
     </WRootToastApp>

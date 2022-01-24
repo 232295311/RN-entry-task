@@ -12,18 +12,22 @@ import * as DetailServices from '../service/detail';
 class DetailCenter {
   private detail: EventDetail | null = null;
   private participants: Participants[] = [];
+  private likes: LikesUser[] = [];
   private comments: CommentDetail[] = [];
 
   //获取detail、participants、comments，点击进入detail页面时调用
   async initDetailPage(id: number) {
-    const [resDetail, resParticipants, resComments] = await Promise.all([
-      DetailServices.getEventDetail({id: id}),
-      DetailServices.getEventDetailParticipants({id: id}),
-      DetailServices.getEventDetailComments({id: id}),
-    ]);
+    const [resDetail, resParticipants, resLikes, resComments] =
+      await Promise.all([
+        DetailServices.getEventDetail({id: id}),
+        DetailServices.getEventDetailParticipants({id: id}),
+        DetailServices.getEventDetailLikes({id: id}),
+        DetailServices.getEventDetailComments({id: id}),
+      ]);
     if (resDetail && resParticipants && resComments) {
       this.setDetail(resDetail.event);
       this.setParticipants(resParticipants.users);
+      this.setLikes(resLikes.users);
       this.setComments(resComments.comments);
       return true;
     }
@@ -41,6 +45,12 @@ class DetailCenter {
   }
   getParticipants() {
     return this.participants;
+  }
+  setLikes(params: LikesUser[]) {
+    this.likes = params;
+  }
+  getLike() {
+    return this.likes;
   }
   setComments(params: CommentDetail[]) {
     this.comments = params;

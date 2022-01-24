@@ -14,7 +14,7 @@ export default (props: ScrollTabProps) => {
       <>
         <MaterialCommunityIcons
           name={type === 'Details' ? 'alert-circle' : 'alert-circle-outline'}
-          size={20}
+          size={setSpText2(20)}
           style={type === 'Details' ? styles.lightIcon : styles.commonIcon}
         />
         <Text style={type === 'Details' ? styles.lightText : styles.commonText}>
@@ -30,7 +30,7 @@ export default (props: ScrollTabProps) => {
           name={
             type === 'Participants' ? 'md-people-sharp' : 'md-people-outline'
           }
-          size={20}
+          size={setSpText2(20)}
           style={type === 'Participants' ? styles.lightIcon : styles.commonIcon}
         />
         <Text
@@ -51,7 +51,7 @@ export default (props: ScrollTabProps) => {
               ? 'ios-chatbubbles-sharp'
               : 'ios-chatbubbles-outline'
           }
-          size={20}
+          size={setSpText2(20)}
           style={type === 'Comments' ? styles.lightIcon : styles.commonIcon}
         />
         <Text
@@ -111,4 +111,3 @@ const styles = StyleSheet.create({
     paddingRight: scaleSize(16),
   },
 });
-

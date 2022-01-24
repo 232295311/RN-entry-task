@@ -22,4 +22,5 @@ export const imgAssets: any = {
   // detailPage使用
   from: require('../../assets/from.png'),
   to: require('../../assets/to.png'),
+  gMap: require('../../assets/gmap.png'),
 };

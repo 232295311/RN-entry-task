@@ -6,7 +6,6 @@ import {imgAssets} from '../../../config/ImgAsset';
 
 export default (props: any) => {
   const data: EventDetail = props.data;
-  console.log('data: EventDetail~~~~~~~<', data);
   return (
     <>
       {data && (

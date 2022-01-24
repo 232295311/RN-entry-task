@@ -26,6 +26,12 @@ interface ParticipationDetail {
   createdAt: string;
   updatedAt: string;
 }
+interface LikesUser {
+  // detailPage中likes的用户信息
+  id: number;
+  username: string;
+  avatar: string;
+}
 // --------------------------------------------------------
 interface GetEventDetailReq {
   id: number;
@@ -47,4 +53,12 @@ interface GetEventDetailParticipantsReq {
 
 interface GetEventDetailParticipantsResp {
   users: Participants[];
+}
+
+interface GetEventDetailLikeReq {
+  id: number;
+}
+interface GetEventDetailLikeResp {
+  hasMore: boolean;
+  users: LikesUser[];
 }

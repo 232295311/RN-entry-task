@@ -28,4 +28,17 @@ const getEventDetailParticipants = async (
   return res;
 };
 
-export {getEventDetail, getEventDetailComments, getEventDetailParticipants};
+//获取活动likes信息
+const getEventDetailLikes = async (
+  params: GetEventDetailLikeReq,
+): Promise<GetEventDetailLikeResp> => {
+  const res: any = await get(`events/${params.id}/likes`)();
+  return res;
+};
+
+export {
+  getEventDetail,
+  getEventDetailComments,
+  getEventDetailParticipants,
+  getEventDetailLikes,
+};
