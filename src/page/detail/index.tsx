@@ -6,6 +6,7 @@ import {
   View,
   ScrollView,
   FlatList,
+  DeviceEventEmitter,
 } from 'react-native';
 import CommonHeader from '../../commonComponent/CommonHeader';
 import DetailCenter from '../../store/DetailCenter';
@@ -19,12 +20,14 @@ import Participants from './components/Participants';
 import CommentItem from './components/CommentItem';
 import BottomTab from './components/BottomTab';
 import {scaleSize} from '../../utils/screen';
+
 export default (props: any) => {
   const id = props.route.params.id;
   const [detail, setDetail] = useState<EventDetail | null>(null);
   const [participants, setParticipants] = useState<Participants[]>([]);
   const [likes, setLikes] = useState<LikesUser[]>([]);
   const [comments, setComments] = useState<CommentDetail[]>([]);
+  let listener: any = null;
   useEffect(() => {
     console.log('id~~~~~~', id);
     if (id) {
@@ -32,8 +35,20 @@ export default (props: any) => {
     } else {
       initPage(1);
     }
-    // DetailCenter.initDetailPage();
+    listener = DeviceEventEmitter.addListener('DetailLikesOrGoing', () => {
+      console.log(
+        '~~~~~~~~~~~detail页面，触发监听',
+        DetailCenter.getLike().length,
+      );
+      setParticipants(DetailCenter.getParticipants());
+      setLikes(DetailCenter.getLike());
+    });
+    return () => {
+      console.log('~~~~退出DetailPage');
+      listener.remove();
+    };
   }, []);
+
   const initPage = async (id: number) => {
     try {
       await DetailCenter.initDetailPage(id);
@@ -49,7 +64,6 @@ export default (props: any) => {
   };
 
   const renderCommentItem = (item: any) => {
-    console.log('renderCommentItem~~~~~~', item);
     return <CommentItem key={item.id} comment={item}></CommentItem>;
   };
   return (
@@ -86,7 +100,7 @@ export default (props: any) => {
         </View>
       </ScrollView>
 
-      <BottomTab></BottomTab>
+      <BottomTab detail={detail}></BottomTab>
     </View>
   );
 };

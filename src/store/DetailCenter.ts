@@ -34,6 +34,48 @@ class DetailCenter {
     return false;
   }
 
+  //获取participants 更新Participants组件
+  async updateParticipants(id: number) {
+    const resParticipants = await DetailServices.getEventDetailParticipants({
+      id: id,
+    });
+    if (resParticipants) {
+      this.setParticipants(resParticipants.users);
+      return true;
+    }
+    return false;
+  }
+
+  //获取participants 更新likes组件
+  async updateLikes(id: number) {
+    const resLikes = await DetailServices.getEventDetailLikes({
+      id: id,
+    });
+    if (resLikes) {
+      this.setLikes(resLikes.users);
+      return true;
+    }
+    return false;
+  }
+
+  // 用户评论时调用 发送comments、并同时更新Comments组件
+  // async comment(id: number) {
+  //   const resComments =
+  //     await Promise.all([
+  //       DetailServices.getEventDetail({id: id}),
+  //       DetailServices.getEventDetailParticipants({id: id}),
+  //       DetailServices.getEventDetailLikes({id: id}),
+  //       DetailServices.getEventDetailComments({id: id}),
+  //     ]);
+  //   if (resDetail && resParticipants && resComments) {
+  //     this.setDetail(resDetail.event);
+  //     this.setParticipants(resParticipants.users);
+  //     this.setLikes(resLikes.users);
+  //     this.setComments(resComments.comments);
+  //     return true;
+  //   }
+  //   return false;
+  // }
   setDetail(params: EventDetail) {
     this.detail = params;
   }

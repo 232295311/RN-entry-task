@@ -1,13 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, TouchableHighlight} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableHighlight,
+  DeviceEventEmitter,
+} from 'react-native';
 // import MsgCenter from '../../../libs/msg_center';
 // import UIAdpt from '../../../libs/ui_adpt';
 import {scaleSize, setSpText2} from '../../../utils/screen';
 import {WToast} from 'react-native-smart-tip';
 import ActivityCenter from '../../../store/ActivityCenter';
 import ChannelCenter from '../../../store/ChannelCenter';
-//@ts-ignore
-import EventBus from 'react-native-event-bus';
+
 
 export default function SearchResult() {
   const [visible, setVisible] = useState<boolean>(false);
@@ -15,25 +20,22 @@ export default function SearchResult() {
   const [channel, setChannel] = useState<string>(''); //展示的Channel名字 从ActivityCenter的搜索参数中找出并去ChannelCenter获取名字
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
-
+  let listener: any = null;
   useEffect(() => {
     const getChannelName = () => {
       const channelId = ActivityCenter.getChannels();
       return ChannelCenter.getChannelName(channelId);
     };
     //监听Search里的搜索事件
-    const listener = EventBus.getInstance().addListener(
-      'showSearchResult',
-      () => {
-        setVisible(true);
-        setCount(ActivityCenter.getTotal());
-        setChannel(getChannelName());
-        setStartTime(ActivityCenter.getAfter('DD/MM'));
-        setEndTime(ActivityCenter.getBefore('DD/MM'));
-      },
-    );
+    listener = DeviceEventEmitter.addListener('showSearchResult', () => {
+      setVisible(true);
+      setCount(ActivityCenter.getTotal());
+      setChannel(getChannelName());
+      setStartTime(ActivityCenter.getAfter('DD/MM'));
+      setEndTime(ActivityCenter.getBefore('DD/MM'));
+    });
     return () => {
-      EventBus.getInstance().removeListener(listener);
+      listener.remove();
     };
   }, []);
 
@@ -45,7 +47,7 @@ export default function SearchResult() {
         before: 0,
       });
       // 触发getEventsSuccess事件更新List页面数据
-      EventBus.getInstance().fireEvent('getEventsSuccess');
+      DeviceEventEmitter.emit('getEventsSuccess');
       setVisible(false);
     } catch (e) {
       WToast.show({data: 'clearSearch失败' + e});
@@ -80,7 +82,6 @@ export default function SearchResult() {
 
   return <>{renderResult()}</>;
 }
-
 
 const styles = StyleSheet.create({
   result: {

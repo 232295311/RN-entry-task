@@ -36,7 +36,6 @@ class ActivityCenter {
       this.setList(res.events); //同时会拼接两次的list和更新offset
       this.setHasMore(res.hasMore);
       this.setTotal(res.events.length);
-      //   MsgCenter.sendMsg('getEventsSuccess', '');
       return res;
     }
     return false;
@@ -89,7 +88,7 @@ class ActivityCenter {
     }
   }
 
-  //参与活动
+  //喜爱活动
   async likeEvent(params: LikeEventReq) {
     const res = await Activity.likeEvent(params);
     if (res === '') {
@@ -105,7 +104,7 @@ class ActivityCenter {
     }
   }
 
-  //不参与活动
+  //不喜欢活动
   async disLikeEvent(params: DisLikeEventReq) {
     const res = await Activity.disLikeEvent(params);
     if (res === '') {

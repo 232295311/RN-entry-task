@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {DeviceEventEmitter} from 'react-native';
 import {RecyclerListView, DataProvider, LayoutProvider} from 'recyclerlistview';
 import ActivityCenter from '../../../store/ActivityCenter';
 import {scaleSize, setSpText2} from '../../../utils/screen';
@@ -6,8 +7,6 @@ import ActivityItem from './ActivityItem';
 import Empty from './Empty';
 import {WToast} from 'react-native-smart-tip';
 import ChannelCenter from '../../../store/ChannelCenter';
-//@ts-ignore
-import EventBus from 'react-native-event-bus';
 
 export default function List() {
   const [total, setTotal] = useState<number>(ActivityCenter.getTotal());
@@ -15,20 +14,18 @@ export default function List() {
   const [activityList, setActivityList] = useState<EventDetail[]>(
     ActivityCenter.getList(),
   );
-
+  let listener: any = null;
   useEffect(() => {
     loadList();
     loadChannelList();
-    const listener = EventBus.getInstance().addListener(
-      'getEventsSuccess',
-      () => {
-        setTotal(ActivityCenter.getTotal());
-        setHasMore(ActivityCenter.getHasMore());
-        setActivityList(ActivityCenter.getList());
-      },
-    );
+    listener = DeviceEventEmitter.addListener('getEventsSuccess', () => {
+      setTotal(ActivityCenter.getTotal());
+      setHasMore(ActivityCenter.getHasMore());
+      setActivityList(ActivityCenter.getList());
+    });
     return () => {
-      EventBus.getInstance().removeListener(listener);
+      console.log('退出~~~~~~~~~~~home页面');
+      listener.remove();
     };
   }, []);
 
@@ -60,7 +57,7 @@ export default function List() {
     );
   };
 
-  //列表数据
+  // //列表数据
   const listData = () => {
     const dataProvider = new DataProvider((r1, r2) => {
       return r1 !== r2;
@@ -70,7 +67,11 @@ export default function List() {
 
   //不同类型渲染方式
   const listRowRender = (type: any, data: EventDetail) => {
-    return <ActivityItem data={data}></ActivityItem>;
+    console.log('进入~~~listRowRender');
+    if (data.id === 2) {
+      console.log('````````~~~~~~~~~~~~~~~~~~~~~data', data);
+    }
+    return <ActivityItem key={data.id} data={data}></ActivityItem>;
   };
 
   //获取列表数据

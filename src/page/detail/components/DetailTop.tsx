@@ -2,21 +2,11 @@ import moment from 'moment-timezone';
 import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, View, Text, Image} from 'react-native';
 import {scaleSize, setSpText2} from '../../../utils/screen';
+import {renderDiffNow} from '../../../utils/formatTime';
 
 export default (props: any) => {
   const data: EventDetail = props.data;
 
-  const renderCreatedTime = (create_time: string) => {
-    //根据createdTime和现在的时间对比，找出时间差
-    const count = moment().diff(moment(create_time), 'days');
-    if (count <= 1) {
-      return `Published ${count} day ago`;
-    } else if (count <= 3) {
-      return `Published ${count} days ago`;
-    } else {
-      return `Published on ${moment(create_time).format('YYYY:MM:DD')}`;
-    }
-  };
   return (
     <>
       {data && (
@@ -37,7 +27,7 @@ export default (props: any) => {
             <View style={styles.userInfo}>
               <Text style={styles.nickName}>{data.creator.username}</Text>
               <Text style={styles.publishedTime}>
-                {renderCreatedTime(data.create_time)}
+                {renderDiffNow(data.create_time)}
               </Text>
             </View>
           </View>
@@ -49,7 +39,6 @@ export default (props: any) => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    // height: '100%',
     padding: scaleSize(16),
   },
   channelName: {

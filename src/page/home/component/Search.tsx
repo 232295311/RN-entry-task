@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Image, Text, TouchableHighlight} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TouchableHighlight,
+  DeviceEventEmitter,
+} from 'react-native';
 // import MsgCenter from '../../../store/UserCenter';
 import {imgAssets} from '../../../config/ImgAsset';
 import {scaleSize, setSpText2} from '../../../utils/screen';
@@ -7,8 +14,7 @@ import ActivityCenter from '../../../store/ActivityCenter';
 import moment from 'moment-timezone';
 import ChannelCenter from '../../../store/ChannelCenter';
 import {WToast} from 'react-native-smart-tip';
-//@ts-ignore
-import EventBus from 'react-native-event-bus';
+
 const dateArray: string[] = [
   'ANYTIME',
   'TODAY',
@@ -68,8 +74,8 @@ export default function Search(props: SearchProps) {
       });
       props.setOpenSearch(false);
       // 触发展示SearchResult组件的事件 和 List组件更新事件
-      EventBus.getInstance().fireEvent('showSearchResult');
-      EventBus.getInstance().fireEvent('getEventsSuccess');
+      DeviceEventEmitter.emit('showSearchResult');
+      DeviceEventEmitter.emit('getEventsSuccess');
     } catch (e) {
       WToast.show({data: 'search failed, please try again.' + e});
     }
@@ -208,7 +214,6 @@ export default function Search(props: SearchProps) {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   search: {

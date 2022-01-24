@@ -1,16 +1,38 @@
-import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, View, Text, Image} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  DeviceEventEmitter,
+} from 'react-native';
 import {scaleSize, setSpText2} from '../../../utils/screen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {imgAssets} from '../../../config/ImgAsset';
 import {TextInput} from 'react-native-gesture-handler';
+import ActivityCenter from '../../../store/ActivityCenter';
+import DetailCenter from '../../../store/DetailCenter';
+import {WToast} from 'react-native-smart-tip';
+// import DeviceEventEmitter from 'react-native-event-bus';
 
 let commentInput = null;
 // ios-heart
 export default (props: any) => {
   const [showCommentInput, setShowCommentInput] = useState<boolean>(false); //是否展示输入评论的输入框
   const [comment, setComment] = useState<string>('');
+
+  const [isGoing, setIsGoing] = useState<boolean | undefined>(false); //是否已经参加
+  const [isLike, setIsLike] = useState<boolean | undefined>(false); //是否喜欢
+
+  useEffect(() => {
+    if (props.detail) {
+      setIsGoing(props.detail?.me_going);
+      setIsLike(props.detail?.me_likes);
+    }
+  }, [props.detail]);
 
   //绑定commeny元素
   const bindComment = (el: any) => {
@@ -27,6 +49,57 @@ export default (props: any) => {
   //   const commentFocus = () => {
   //     setCommentStyle(styles.inputItem);
   //   };
+
+  //点击Going参加活动
+  const clickJoin = async (isGoing: boolean) => {
+    console.log('进来了 going～～');
+    try {
+      if (isGoing) {
+        await ActivityCenter.joinEvent({
+          id: props.detail?.id,
+        });
+        await DetailCenter.updateParticipants(props.detail?.id);
+        DeviceEventEmitter.emit('DetailLikesOrGoing', props.detail?.id);
+        WToast.show({data: 'operation success'});
+      } else {
+        await ActivityCenter.quitEvent({
+          id: props.detail?.id,
+        });
+        await DetailCenter.updateParticipants(props.detail?.id);
+        DeviceEventEmitter.emit('DetailLikesOrGoing', props.detail?.id);
+        WToast.show({data: 'cancel participating success'});
+      }
+      setIsGoing(isGoing);
+    } catch (e) {
+      WToast.show({data: e});
+    }
+  };
+
+  //点击爱心
+  const clickLike = async (isLiking: boolean) => {
+    console.log('进来了 点击爱心～～');
+    try {
+      if (isLiking) {
+        await ActivityCenter.likeEvent({
+          id: props.detail?.id,
+        });
+        await DetailCenter.updateLikes(props.detail?.id);
+        DeviceEventEmitter.emit('DetailLikesOrGoing', props.detail?.id);
+        WToast.show({data: 'operation success'});
+      } else {
+        await ActivityCenter.disLikeEvent({
+          id: props.detail?.id,
+        });
+        await DetailCenter.updateLikes(props.detail?.id);
+        DeviceEventEmitter.emit('DetailLikesOrGoing', props.detail?.id);
+        WToast.show({data: 'cancel liking success'});
+      }
+      setIsLike(isLiking);
+    } catch (e) {
+      WToast.show({data: e});
+    }
+  };
+
   return (
     <View style={styles.container}>
       {showCommentInput ? (
@@ -67,16 +140,47 @@ export default (props: any) => {
               onPress={() => {
                 setShowCommentInput(true);
               }}></Ionicons>
-            <Ionicons
-              name={'ios-heart-outline'}
-              size={scaleSize(24)}></Ionicons>
+            {isLike ? (
+              <Ionicons
+                name={'ios-heart'}
+                size={scaleSize(24)}
+                style={{color: '#D5EF7F'}}
+                onPress={() => {
+                  clickLike(false);
+                }}></Ionicons>
+            ) : (
+              <Ionicons
+                name={'ios-heart-outline'}
+                size={scaleSize(24)}
+                onPress={() => {
+                  clickLike(true);
+                }}></Ionicons>
+            )}
           </View>
-          <View style={styles.rightContent}>
-            <Image
-              style={styles.joinIcon}
-              source={imgAssets.checkOutline}></Image>
-            <Text style={styles.joinText}>Join</Text>
-          </View>
+
+          {isGoing ? (
+            <TouchableOpacity
+              onPress={() => {
+                clickJoin(false);
+              }}
+              style={styles.rightContent}>
+              <Image
+                style={styles.joinIcon}
+                source={imgAssets.activityGoing}></Image>
+              <Text style={styles.joinedText}>I am going</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={() => {
+                clickJoin(true);
+              }}
+              style={styles.rightContent}>
+              <Image
+                style={styles.joinIcon}
+                source={imgAssets.checkOutline}></Image>
+              <Text style={styles.joinText}>Join</Text>
+            </TouchableOpacity>
+          )}
         </>
       )}
     </View>
@@ -113,6 +217,12 @@ const styles = StyleSheet.create({
   joinText: {
     fontSize: setSpText2(14),
     color: '#788C36',
+    marginLeft: scaleSize(12),
+    fontWeight: 'bold',
+  },
+  joinedText: {
+    fontSize: setSpText2(14),
+    color: '#8560A9',
     marginLeft: scaleSize(12),
     fontWeight: 'bold',
   },

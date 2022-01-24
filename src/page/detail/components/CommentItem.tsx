@@ -2,13 +2,10 @@ import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, View, Text, Image} from 'react-native';
 import {scaleSize, setSpText2} from '../../../utils/screen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import {renderDiffNow} from '../../../utils/formatTime';
 export default (props: any) => {
   const comment: CommentDetail = props.comment;
 
-  const renderTime = (create_time: string) => {
-    return 'zhe shi shi jian';
-  };
   return (
     <View style={styles.container}>
       <Image style={styles.leftImg} source={{uri: comment.user.avatar}}></Image>
@@ -16,7 +13,9 @@ export default (props: any) => {
         <View style={styles.rightTitleContainer}>
           <View style={styles.rightTitle}>
             <Text style={styles.userName}>{comment.user.username}</Text>
-            <Text style={styles.userTime}>{renderTime('111')}</Text>
+            <Text style={styles.userTime}>
+              {renderDiffNow(comment.create_time)}
+            </Text>
           </View>
           <Ionicons
             name={'md-arrow-undo-outline'}

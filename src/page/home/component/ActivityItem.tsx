@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  DeviceEventEmitter,
 } from 'react-native';
 import NavigationUtil from '../../../navigation/NavigationUtil';
 import {imgAssets} from '../../../config/ImgAsset';
@@ -15,11 +16,25 @@ import moment from 'moment-timezone';
 import {WToast} from 'react-native-smart-tip';
 
 export default function ActivityItem(props: {data: EventDetail}) {
-  const [isGoing, setIsGoing] = useState<boolean>(props.data.me_going); //是否已经参加
-  const [isLike, setIsLike] = useState<boolean>(props.data.me_likes); //是否喜欢
+  const [isGoing, setIsGoing] = useState<boolean>(false); //是否已经参加
+  const [isLike, setIsLike] = useState<boolean>(false); //是否喜欢
   const [imageUri, setImageUri] = useState<any>({
     uri: props.data.images!.length > 0 ? props.data.images![0] : '',
   });
+  let listener2: any = null;
+
+  useEffect(() => {
+    listener2 = DeviceEventEmitter.addListener('DetailLikesOrGoing', id => {
+      if (id === props.data.id) {
+        console.log('~~~~~~~~~~~Listitem，触发监听');
+        setIsLike(ActivityCenter.getItemById(props.data?.id)?.me_likes!);
+        setIsGoing(ActivityCenter.getItemById(props.data?.id)?.me_going!);
+      }
+    });
+    return () => {
+      listener2.remove();
+    };
+  }, []);
 
   useEffect(() => {
     if (props.data.images!.length > 0) {
@@ -29,7 +44,15 @@ export default function ActivityItem(props: {data: EventDetail}) {
     } else {
       setImageUri(imgAssets.notFound);
     }
-  }, []);
+    if (props.data) {
+      console.log(props.data.id);
+      if (props.data.id === 2) {
+        console.log(props.data);
+      }
+      setIsGoing(props.data?.me_going);
+      setIsLike(props.data?.me_likes);
+    }
+  }, [props.data]);
 
   //点击Going参加活动
   const clickJoin = async (isGoing: boolean) => {

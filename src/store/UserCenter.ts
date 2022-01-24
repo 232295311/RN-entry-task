@@ -33,7 +33,7 @@ class UserCenter {
   }
 
   getUserInfo() {
-    console.log('this.userInfo', this.userInfo);
+    // console.log('this.userInfo', this.userInfo);
     return this.userInfo;
   }
 

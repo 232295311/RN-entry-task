@@ -10,7 +10,7 @@ export default (props: any) => {
   const likes: LikesUser[] = props.likes;
   const [participantsMore, setParticipantsMore] = useState<boolean>(false);
   const [likesMore, setLikesMore] = useState<boolean>(false);
-
+  console.log('~~~~~~~~更新了', likes.length);
   useEffect(() => {
     if (participants?.length > 0 && likes?.length > 0) {
       if (participants.length > iconNumberOfHide) {
@@ -50,6 +50,7 @@ export default (props: any) => {
                           onPress={() => {
                             setParticipantsMore(false);
                           }}
+                          key={item.id}
                         />
                       ) : (
                         <Image
@@ -87,6 +88,7 @@ export default (props: any) => {
                           onPress={() => {
                             setLikesMore(false);
                           }}
+                          key={item.id}
                         />
                       ) : (
                         <Image
@@ -137,11 +139,13 @@ const styles = StyleSheet.create({
   icon: {
     width: scaleSize(14),
     height: scaleSize(14),
+    marginTop: scaleSize(4),
   },
   iconText: {
     fontSize: setSpText2(12),
     color: '#67616D',
     marginLeft: scaleSize(8),
+    marginTop: scaleSize(4),
   },
   avatarContainer: {
     // width: '100%',
