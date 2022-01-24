@@ -23,4 +23,6 @@ export const imgAssets: any = {
   from: require('../../assets/from.png'),
   to: require('../../assets/to.png'),
   gMap: require('../../assets/gmap.png'),
+  check:require('../../assets/check.png'),
+  checkOutline:require('../../assets/check-outline.png')
 };

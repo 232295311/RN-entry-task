@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, StyleSheet, Text, View, ScrollView} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  FlatList,
+} from 'react-native';
 import CommonHeader from '../../commonComponent/CommonHeader';
 import DetailCenter from '../../store/DetailCenter';
 import {WToast} from 'react-native-smart-tip';
@@ -9,6 +16,8 @@ import Desc from './components/Desc';
 import When from './components/When';
 import Where from './components/Where';
 import Participants from './components/Participants';
+import CommentItem from './components/CommentItem';
+import BottomTab from './components/BottomTab';
 import {scaleSize} from '../../utils/screen';
 export default (props: any) => {
   const id = props.route.params.id;
@@ -38,10 +47,18 @@ export default (props: any) => {
       });
     }
   };
+
+  const renderCommentItem = (item: any) => {
+    console.log('renderCommentItem~~~~~~', item);
+    return <CommentItem key={item.id} comment={item}></CommentItem>;
+  };
   return (
     <View style={styles.root}>
       <CommonHeader pageType="DetailPage"></CommonHeader>
-      <ScrollView>
+      <ScrollView
+        style={{
+          flex: 1,
+        }}>
         <View style={styles.DetailTop}>
           <DetailTop data={detail}></DetailTop>
         </View>
@@ -62,18 +79,24 @@ export default (props: any) => {
             participants={participants}
             likes={likes}></Participants>
         </View>
-        <View style={styles.Comments}></View>
+        <View style={styles.Comments}>
+          {comments.map((item, index) => {
+            return renderCommentItem(item);
+          })}
+        </View>
       </ScrollView>
-      <View style={styles.BottomTab}></View>
+
+      <BottomTab></BottomTab>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
+    flex: 1,
     width: '100%',
-    // height: '100%',
     backgroundColor: 'rgba(250, 249, 252,1)',
+    flexDirection: 'column',
   },
   DetailTop: {
     paddingBottom: scaleSize(12),
@@ -101,6 +124,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: scaleSize(1),
     borderBottomColor: '#E8E8E8',
   },
-  Comments: {},
-  BottomTab: {},
+  Comments: {
+    borderBottomWidth: scaleSize(1),
+    borderBottomColor: '#E8E8E8',
+  },
 });

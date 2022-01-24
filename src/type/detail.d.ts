@@ -42,6 +42,8 @@ interface GetEventDetailResp {
 
 interface GetEventDetailCommentsReq {
   id: number;
+  offset?: number;
+  limit?: number;
 }
 interface GetEventDetailCommentsResp {
   comments: CommentDetail[];

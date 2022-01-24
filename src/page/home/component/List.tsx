@@ -95,7 +95,6 @@ export default function List() {
 
   //下拉加载更多
   const loadMore = () => {
-    console.log('进来loadMore了', hasMore);
     if (hasMore) {
       //拉活动列表
       loadList();

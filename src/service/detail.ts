@@ -12,10 +12,15 @@ const getEventDetail = async (
   return res;
 };
 
-//获取活动comments信息
+//获取活动comments信息 这里返回值应该要有一个hasMore的 但是它没有，我们就当它是返回全量来用吧
 const getEventDetailComments = async (
   params: GetEventDetailCommentsReq,
 ): Promise<GetEventDetailCommentsResp> => {
+  const data = {
+    ...params,
+    offset: params.offset || 0, //页码
+    limit: params.limit || 25,
+  };
   const res: any = await get(`events/${params.id}/comments`)();
   return res;
 };
@@ -28,7 +33,7 @@ const getEventDetailParticipants = async (
   return res;
 };
 
-//获取活动likes信息
+//获取活动likes信息 这里返回值不应该有一个hasMore的 但是它有？
 const getEventDetailLikes = async (
   params: GetEventDetailLikeReq,
 ): Promise<GetEventDetailLikeResp> => {
