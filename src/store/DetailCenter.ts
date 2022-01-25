@@ -5,8 +5,6 @@
  *
  */
 
-import moment from 'moment';
-import * as Activity from '../service/activity';
 import * as DetailServices from '../service/detail';
 
 class DetailCenter {

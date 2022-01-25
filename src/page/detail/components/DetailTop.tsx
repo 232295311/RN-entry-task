@@ -1,4 +1,3 @@
-import moment from 'moment-timezone';
 import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, View, Text, Image} from 'react-native';
 import {scaleSize, setSpText2} from '../../../utils/screen';

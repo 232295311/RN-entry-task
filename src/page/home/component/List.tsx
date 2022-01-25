@@ -5,7 +5,7 @@ import ActivityCenter from '../../../store/ActivityCenter';
 import {scaleSize, setSpText2} from '../../../utils/screen';
 import ActivityItem from './ActivityItem';
 import Empty from './Empty';
-import {WToast} from 'react-native-smart-tip';
+import Toast from 'react-native-root-toast';
 import ChannelCenter from '../../../store/ChannelCenter';
 
 export default function List() {
@@ -24,7 +24,6 @@ export default function List() {
       setActivityList(ActivityCenter.getList());
     });
     return () => {
-      console.log('退出~~~~~~~~~~~home页面');
       listener.remove();
     };
   }, []);
@@ -67,10 +66,6 @@ export default function List() {
 
   //不同类型渲染方式
   const listRowRender = (type: any, data: EventDetail) => {
-    console.log('进入~~~listRowRender');
-    if (data.id === 2) {
-      console.log('````````~~~~~~~~~~~~~~~~~~~~~data', data);
-    }
     return <ActivityItem key={data.id} data={data}></ActivityItem>;
   };
 
@@ -82,7 +77,7 @@ export default function List() {
       setHasMore(ActivityCenter.getHasMore());
       setActivityList(ActivityCenter.getList());
     } catch (e) {
-      WToast.show({data: 'load events data failed, please try again' + e});
+      Toast.show('load events data failed, please try again' + e);
     }
   };
   //获取channel数据
@@ -90,7 +85,7 @@ export default function List() {
     try {
       const res = await ChannelCenter.getChannels();
     } catch (e) {
-      WToast.show({data: 'load channels data failed, please try again' + e});
+      Toast.show('load channels data failed, please try again' + e);
     }
   };
 
@@ -100,7 +95,7 @@ export default function List() {
       //拉活动列表
       loadList();
     } else {
-      WToast.show({data: 'no more events'});
+      Toast.show('no more events');
     }
   };
 

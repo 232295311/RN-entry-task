@@ -15,7 +15,7 @@ import {imgAssets} from '../../../config/ImgAsset';
 import {TextInput} from 'react-native-gesture-handler';
 import ActivityCenter from '../../../store/ActivityCenter';
 import DetailCenter from '../../../store/DetailCenter';
-import {WToast} from 'react-native-smart-tip';
+import Toast from 'react-native-root-toast';
 
 let commentInput = null;
 let listener: any = null;
@@ -51,18 +51,9 @@ export default (props: any) => {
   const commentChange = (value: string) => {
     setComment(value);
   };
-  //   //焦点离开comment
-  //   const commentBlur = () => {
-  //     setCommentStyle(styles.inputItemFocus);
-  //   };
-  //   //焦点进入comment
-  //   const commentFocus = () => {
-  //     setCommentStyle(styles.inputItem);
-  //   };
 
   //点击Going参加活动
   const clickJoin = async (isGoing: boolean) => {
-    console.log('进来了 going～～');
     try {
       if (isGoing) {
         await ActivityCenter.joinEvent({
@@ -70,24 +61,23 @@ export default (props: any) => {
         });
         await DetailCenter.updateParticipants(props.detail?.id);
         DeviceEventEmitter.emit('DetailLikesOrGoing', props.detail?.id);
-        WToast.show({data: 'operation success'});
+        Toast.show('operation success');
       } else {
         await ActivityCenter.quitEvent({
           id: props.detail?.id,
         });
         await DetailCenter.updateParticipants(props.detail?.id);
         DeviceEventEmitter.emit('DetailLikesOrGoing', props.detail?.id);
-        WToast.show({data: 'cancel participating success'});
+        Toast.show('cancel participating success');
       }
       setIsGoing(isGoing);
     } catch (e) {
-      WToast.show({data: e});
+      Toast.show(e);
     }
   };
 
   //点击爱心
   const clickLike = async (isLiking: boolean) => {
-    console.log('进来了 点击爱心～～');
     try {
       if (isLiking) {
         await ActivityCenter.likeEvent({
@@ -95,35 +85,34 @@ export default (props: any) => {
         });
         await DetailCenter.updateLikes(props.detail?.id);
         DeviceEventEmitter.emit('DetailLikesOrGoing', props.detail?.id);
-        WToast.show({data: 'operation success'});
+        Toast.show('operation success');
       } else {
         await ActivityCenter.disLikeEvent({
           id: props.detail?.id,
         });
         await DetailCenter.updateLikes(props.detail?.id);
         DeviceEventEmitter.emit('DetailLikesOrGoing', props.detail?.id);
-        WToast.show({data: 'cancel liking success'});
+        Toast.show('cancel liking success');
       }
       setIsLike(isLiking);
     } catch (e) {
-      WToast.show({data: e});
+      Toast.show(e);
     }
   };
 
   //点击飞机按钮 发送评论
   const clickPostComment = async (comment: string) => {
-    console.log('进来了 点击飞机～～');
     try {
       if (comment) {
         await DetailCenter.postComment(props.detail?.id, comment);
 
         DeviceEventEmitter.emit('PostCommentSuccess');
-        WToast.show({data: 'comment success'});
+        Toast.show('comment success');
       } else {
-        WToast.show({data: 'please input comment'});
+        Toast.show('please input comment');
       }
     } catch (e) {
-      WToast.show({data: e});
+      Toast.show(e);
     }
   };
   return (
@@ -146,8 +135,6 @@ export default (props: any) => {
               //   maxLength={30}
               ref={bindComment}
               onChangeText={commentChange}
-              //   onBlur={commentFocus}
-              //   onFocus={commentBlur}
             />
           </View>
           <TouchableOpacity

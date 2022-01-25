@@ -13,10 +13,11 @@ export default function Empty() {
 
 const styles = StyleSheet.create({
   empty: {
-    height: scaleSize(400),
+    height: '100%',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#fff',
   },
   pic: {
     height: scaleSize(60),

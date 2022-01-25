@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import CommonHeader from '../../commonComponent/CommonHeader';
 import DetailCenter from '../../store/DetailCenter';
-import {WToast} from 'react-native-smart-tip';
+import Toast from 'react-native-root-toast';
 import DetailTop from './components/DetailTop';
 import ScrollTab from './components/ScrollTab';
 import Desc from './components/Desc';
@@ -31,23 +31,19 @@ export default (props: any) => {
   const [comments, setComments] = useState<CommentDetail[]>([]);
 
   useEffect(() => {
-    console.log('id~~~~~~', id);
     if (id) {
       initPage(id);
     } else {
       initPage(1);
     }
     listener = DeviceEventEmitter.addListener('DetailLikesOrGoing', () => {
-      console.log('~~~~~~~~~~~detail页面，触发喜欢或参加的监听');
       setParticipants(DetailCenter.getParticipants());
       setLikes(DetailCenter.getLike());
     });
     listener2 = DeviceEventEmitter.addListener('PostCommentSuccess', () => {
-      console.log('~~~~~~~~~~~detail页面，触发评论成功的监听');
       setComments(DetailCenter.getComments());
     });
     return () => {
-      console.log('~~~~退出DetailPage');
       listener.remove();
       listener2.remove();
     };
@@ -61,9 +57,7 @@ export default (props: any) => {
       setComments(DetailCenter.getComments());
       setLikes(DetailCenter.getLike());
     } catch (e) {
-      WToast.show({
-        data: 'failed to get Event Detail data, please try again.' + e,
-      });
+      Toast.show('failed to get Event Detail data, please try again.' + e);
     }
   };
 

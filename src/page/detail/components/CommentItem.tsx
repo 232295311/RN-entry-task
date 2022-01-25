@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginLeft: scaleSize(12),
     flexShrink: 1,
-    // backgroundColor: 'red',
+
   },
   rightTitleContainer: {
     display: 'flex',

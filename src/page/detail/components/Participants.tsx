@@ -10,7 +10,6 @@ export default (props: any) => {
   const likes: LikesUser[] = props.likes;
   const [participantsMore, setParticipantsMore] = useState<boolean>(false);
   const [likesMore, setLikesMore] = useState<boolean>(false);
-  console.log('~~~~~~~~更新了', likes.length);
   useEffect(() => {
     if (participants?.length > 0 && likes?.length > 0) {
       if (participants.length > iconNumberOfHide) {
@@ -120,7 +119,7 @@ const styles = StyleSheet.create({
     paddingBottom: scaleSize(8),
     paddingLeft: scaleSize(16),
     paddingRight: scaleSize(16),
-    // backgroundColor: 'green',
+
   },
   topContent: {
     display: 'flex',
@@ -129,12 +128,12 @@ const styles = StyleSheet.create({
     paddingBottom: scaleSize(4),
     borderBottomWidth: scaleSize(1),
     borderBottomColor: '#E8E8E8',
-    // backgroundColor: 'red',
+
   },
   bottomContent: {
     flexDirection: 'row',
     paddingTop: scaleSize(12),
-    // backgroundColor: 'red',
+
   },
   icon: {
     width: scaleSize(14),
@@ -148,14 +147,14 @@ const styles = StyleSheet.create({
     marginTop: scaleSize(4),
   },
   avatarContainer: {
-    // width: '100%',
+
     display: 'flex',
     flexDirection: 'row',
     marginLeft: scaleSize(21),
     flexWrap: 'wrap',
     flexGrow: 1,
     flexShrink: 1,
-    // backgroundColor: 'blue',
+
   },
   bottomAvatarContainer: {
     flexDirection: 'row',
@@ -163,7 +162,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexGrow: 1,
     flexShrink: 1,
-    // backgroundColor: 'blue',
+
   },
 
   avatar: {

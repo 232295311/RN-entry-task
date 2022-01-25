@@ -186,7 +186,7 @@ class ActivityCenter {
   //获取开始时间 需要传入格式化moment的字符串
   getAfter(formatString: string) {
     if (this.after === 0) {
-      return '-';
+      return 'any time';
     }
     return moment(this.after).format(formatString);
   }
@@ -194,7 +194,7 @@ class ActivityCenter {
   //获取结束时间 需要传入格式化moment的字符串
   getBefore(formatString: string) {
     if (this.before === 0) {
-      return '-';
+      return 'any time';
     }
     return moment(this.after).format(formatString);
   }

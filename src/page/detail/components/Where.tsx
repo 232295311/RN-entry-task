@@ -4,7 +4,6 @@ import {scaleSize, setSpText2} from '../../../utils/screen';
 import {imgAssets} from '../../../config/ImgAsset';
 export default (props: any) => {
   const data: EventDetail = props.data;
-  //   console.log('data: Where~~~~~~~<', data);
   return (
     <>
       {data && (

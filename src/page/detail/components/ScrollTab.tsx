@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {scaleSize, setSpText2} from '../../../utils/screen';

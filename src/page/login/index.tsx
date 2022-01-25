@@ -17,7 +17,7 @@ import {imgAssets} from '../../config/ImgAsset';
 import I18n from '../../utils/I18n';
 import {scaleSize, setSpText2} from '../../utils/screen';
 import UserCenter from '../../store/UserCenter';
-import {WToast} from 'react-native-smart-tip';
+import Toast from 'react-native-root-toast';
 import NavigationUtil from '../../navigation/NavigationUtil';
 
 //邮件输入框元素
@@ -74,14 +74,14 @@ export default (props: any) => {
   //email和密码检查
   const checkSignIn = () => {
     if (email === '') {
-      WToast.show({data: 'please input email'});
+      Toast.show('please input email');
       setTimeout(() => {
         emailInput.focus(); //用refs触发聚焦事件
       }, 2000);
       return false;
     }
     if (password === '') {
-      WToast.show({data: 'please input password'});
+      Toast.show('please input password');
       setTimeout(() => {
         passwordInput.focus();
       }, 2000);
@@ -95,25 +95,22 @@ export default (props: any) => {
     try {
       if (checkSignIn()) {
         await UserCenter.login(email, password);
-        WToast.show({data: '登陆成功'});
+        Toast.show('登陆成功');
         NavigationUtil.resetToHomePage({});
       }
     } catch (e) {
       if (e === 'error_user_not_found') {
         //如果当前用户没有注册过，直接注册
         await UserCenter.register(email, password);
-        WToast.show({data: '用户不存在，已自动注册并登陆'});
+        Toast.show('用户不存在，已自动注册并登陆');
         NavigationUtil.resetToHomePage({});
         return;
       }
-      WToast.show({data: '登陆出错' + e});
+      Toast.show('登陆出错：' + e);
     }
   }
 
   return (
-    // <SafeAreaView style={{
-    //     // backgroundColor: 'red'
-    // }}>
     <ImageBackground style={styles.container} source={imgAssets.loginBg}>
       <KeyboardAvoidingView
         style={styles.header}
@@ -182,7 +179,6 @@ export default (props: any) => {
     // </SafeAreaView>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {

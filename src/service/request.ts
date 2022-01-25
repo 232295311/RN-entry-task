@@ -86,7 +86,6 @@ function handleData(doAction: Promise<any>) {
         return res.text();
       })
       .then(result => {
-        // console.log('handleData result~~~~:', JSON.stringify(result));
         console.log('handleData result~~~~:');
         if (result.error === 'invalid_token') {
           NavigationUtil.resetToLoginPage({});

@@ -25,8 +25,6 @@ export const login = async (
     username: email,
     password: password,
   };
-  console.log('longin~~~~~~data', data);
   const res: any = await post('auth/token')(data)();
-  console.log('longin~~~~~~res', res);
   return res;
 };

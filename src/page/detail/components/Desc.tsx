@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import {imgAssets} from '../../../config/ImgAsset';
 import {scaleSize, setSpText2} from '../../../utils/screen';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import LinearGradient from 'react-native-linear-gradient';
 
 const linHeight = 16;

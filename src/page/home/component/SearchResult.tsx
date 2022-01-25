@@ -6,13 +6,10 @@ import {
   TouchableHighlight,
   DeviceEventEmitter,
 } from 'react-native';
-// import MsgCenter from '../../../libs/msg_center';
-// import UIAdpt from '../../../libs/ui_adpt';
 import {scaleSize, setSpText2} from '../../../utils/screen';
-import {WToast} from 'react-native-smart-tip';
+import Toast from 'react-native-root-toast';
 import ActivityCenter from '../../../store/ActivityCenter';
 import ChannelCenter from '../../../store/ChannelCenter';
-
 
 export default function SearchResult() {
   const [visible, setVisible] = useState<boolean>(false);
@@ -50,7 +47,7 @@ export default function SearchResult() {
       DeviceEventEmitter.emit('getEventsSuccess');
       setVisible(false);
     } catch (e) {
-      WToast.show({data: 'clearSearch失败' + e});
+      Toast.show('clearSearch失败' + e);
     }
   };
 
@@ -119,10 +116,12 @@ const styles = StyleSheet.create({
     color: '#67616D',
   },
   desc: {
-    height: scaleSize(32),
+    // height: scaleSize(32),
     width: scaleSize(280),
     alignItems: 'flex-start',
     justifyContent: 'center',
+    marginTop: scaleSize(7),
+    paddingBottom: scaleSize(12),
   },
   descText: {
     fontSize: setSpText2(12),

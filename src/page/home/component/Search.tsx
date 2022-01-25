@@ -7,13 +7,12 @@ import {
   TouchableHighlight,
   DeviceEventEmitter,
 } from 'react-native';
-// import MsgCenter from '../../../store/UserCenter';
 import {imgAssets} from '../../../config/ImgAsset';
 import {scaleSize, setSpText2} from '../../../utils/screen';
 import ActivityCenter from '../../../store/ActivityCenter';
 import moment from 'moment-timezone';
 import ChannelCenter from '../../../store/ChannelCenter';
-import {WToast} from 'react-native-smart-tip';
+import Toast from 'react-native-root-toast';
 
 const dateArray: string[] = [
   'ANYTIME',
@@ -52,7 +51,7 @@ interface SearchProps {
 export default function Search(props: SearchProps) {
   const [chooseDate, setChooseDate] = useState<string>('');
   const [chooseChannel, setChooseChannel] = useState<number>(0);
-
+  const [showLaterInput, setShowLaterInput] = useState<boolean>(false);
   const channelArray: ChannelDetail[] = ChannelCenter.getList();
 
   useEffect(() => {
@@ -62,22 +61,23 @@ export default function Search(props: SearchProps) {
   //点击搜索
   const clickSearch = async () => {
     if (chooseDate === '' && chooseChannel === 0) {
-      WToast.show({data: 'Please choose Date or Channel.'});
+      Toast.show('Please choose Date or Channel.');
       return;
     }
     try {
       const date = dateMap[chooseDate];
-      await ActivityCenter.searchEvents({
+      const params = {
         channels: chooseChannel,
-        after: moment(date.after).add(8, 'h').valueOf(), //搜索时需要把东八区时间转成UTC标准时间
-        before: moment(date.before).add(8, 'h').valueOf(), //搜索时需要把东八区时间转成UTC标准时间
-      });
+        after: moment(date.after).valueOf(), //搜索时需要把东八区时间转成UTC标准时间
+        before: moment(date.before).valueOf(), //搜索时需要把东八区时间转成UTC标准时间
+      };
+      await ActivityCenter.searchEvents(params);
       props.setOpenSearch(false);
       // 触发展示SearchResult组件的事件 和 List组件更新事件
       DeviceEventEmitter.emit('showSearchResult');
       DeviceEventEmitter.emit('getEventsSuccess');
     } catch (e) {
-      WToast.show({data: 'search failed, please try again.' + e});
+      Toast.show('search failed, please try again.' + e);
     }
   };
   //渲染日期数据

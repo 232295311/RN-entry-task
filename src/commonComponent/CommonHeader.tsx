@@ -3,14 +3,14 @@ import {StyleSheet, View, Image} from 'react-native';
 import NavigationUtil from '../navigation/NavigationUtil';
 import {imgAssets} from '../config/ImgAsset';
 import UserCenter from '../store/UserCenter';
-import {scaleSize, setSpText2} from '../utils/screen';
+import {scaleSize,} from '../utils/screen';
 interface HeaderProps {
   pageType: string; //当前header所在页面类型
   setOpenSearch?(checked: boolean): void;
 }
 export default function CommonHeader(props: HeaderProps) {
   //渲染主界面按钮
-  function renderHome() {
+  const renderHome = () => {
     if (props.pageType === 'MyPage' || props.pageType === 'DetailPage') {
       return (
         <View style={styles.search} onTouchEnd={gotoHome}>
@@ -24,23 +24,23 @@ export default function CommonHeader(props: HeaderProps) {
         </View>
       );
     }
-  }
+  };
 
   //跳转查询界面
-  function touchSearch() {
+  const touchSearch = () => {
     // console.log('touchSearch', props.openSearch);
     props.setOpenSearch && props.setOpenSearch(true);
-  }
+  };
 
   //跳转我的界面
-  function gotoMe() {
+  const gotoMe = () => {
     NavigationUtil.goPage({}, 'MyPage');
-  }
+  };
 
   //跳转主界面
-  function gotoHome() {
+  const gotoHome = () => {
     NavigationUtil.goPage({}, 'HomePage');
-  }
+  };
 
   return (
     <View style={styles.header}>

@@ -2,7 +2,7 @@ import {getChannels} from '../service/activity';
 /**
  * 存储搜索组件中展示的渠道列表，并提供getList和setList等方法
  * 可做出 获取channel 异步操作
- * 可通过渠道id获取渠道名称，可
+ * 可通过渠道id获取渠道名称，
  */
 
 class ChannelCenter {

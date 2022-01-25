@@ -1,6 +1,5 @@
 import AsyncStorage from '../utils/AsyncStorage';
 import {login, register} from '../service/login';
-import {WToast} from 'react-native-smart-tip';
 /**
  * 存储用户个人信息，并暴露setUserInfo和getUserInfo等方法。
  * 存储用户token，暴露setUserToken和getUserToken等方法。
@@ -33,7 +32,6 @@ class UserCenter {
   }
 
   getUserInfo() {
-    // console.log('this.userInfo', this.userInfo);
     return this.userInfo;
   }
 
@@ -56,7 +54,6 @@ class UserCenter {
    */
   async register(email: string, password: string) {
     const res = await register(email, password);
-    console.log('~-----------', res);
     if (!res.error) {
       this.setUserInfo(
         {
@@ -74,7 +71,6 @@ class UserCenter {
   //用户登录
   async login(email: string, password: string) {
     const res = await login(email, password);
-    console.log('~-------login----', res);
     if (!res.error) {
       this.setUserInfo(res.user, true);
       this.setUserToken(res.token, true);

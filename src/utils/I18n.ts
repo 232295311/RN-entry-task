@@ -2,12 +2,6 @@ import AsyncStorage from './AsyncStorage';
 import en_Data from '../config/en.json';
 import zh_cn_Data from '../config/zh-cn.json';
 
-// const en_Object = JSON.stringify(en_Data);
-// const zh_cn_Object = JSON.stringify(zh_cn_Data);
-
-// console.log(typeof en_Data);
-// console.log(en_Data);
-
 class I18n {
   private curLang = 'en';
 
@@ -16,7 +10,7 @@ class I18n {
   }
 
   //设置默认语言
-  setDefaultLang(tmpLang: string) {
+  setDefaultLang(tmpLang: 'zh_cn' | 'en') {
     this.curLang = tmpLang;
     AsyncStorage.setItem('locale', tmpLang);
   }
@@ -30,6 +24,16 @@ class I18n {
     return this.curLang;
   }
 
+  // 切换语言 英语和中文间的切换
+  async changeLang() {
+    const currLang = await this.getDefaultLang();
+    if (currLang === 'en') {
+      this.setDefaultLang('zh_cn');
+    } else {
+      this.setDefaultLang('en');
+    }
+  }
+
   //根据当前语言翻译
   t(key: string) {
     // const item = ReaderMap[key];
@@ -40,7 +44,6 @@ class I18n {
       // @ts-ignore
       return en_Data[key];
     }
-    return '';
   }
 }
 export default new I18n();

@@ -13,7 +13,7 @@ import {imgAssets} from '../../../config/ImgAsset';
 import {scaleSize, setSpText2} from '../../../utils/screen';
 import ActivityCenter from '../../../store/ActivityCenter';
 import moment from 'moment-timezone';
-import {WToast} from 'react-native-smart-tip';
+import Toast from 'react-native-root-toast';
 
 export default function ActivityItem(props: {data: EventDetail}) {
   const [isGoing, setIsGoing] = useState<boolean>(false); //是否已经参加
@@ -26,7 +26,6 @@ export default function ActivityItem(props: {data: EventDetail}) {
   useEffect(() => {
     listener2 = DeviceEventEmitter.addListener('DetailLikesOrGoing', id => {
       if (id === props.data.id) {
-        console.log('~~~~~~~~~~~Listitem，触发监听');
         setIsLike(ActivityCenter.getItemById(props.data?.id)?.me_likes!);
         setIsGoing(ActivityCenter.getItemById(props.data?.id)?.me_going!);
       }
@@ -45,10 +44,6 @@ export default function ActivityItem(props: {data: EventDetail}) {
       setImageUri(imgAssets.notFound);
     }
     if (props.data) {
-      console.log(props.data.id);
-      if (props.data.id === 2) {
-        console.log(props.data);
-      }
       setIsGoing(props.data?.me_going);
       setIsLike(props.data?.me_likes);
     }
@@ -61,16 +56,16 @@ export default function ActivityItem(props: {data: EventDetail}) {
         await ActivityCenter.joinEvent({
           id: props.data.id,
         });
-        WToast.show({data: 'operation success'});
+        Toast.show('operation success');
       } else {
         await ActivityCenter.quitEvent({
           id: props.data.id,
         });
-        WToast.show({data: 'cancel participating success'});
+        Toast.show('cancel participating success');
       }
       setIsGoing(isGoing);
     } catch (e) {
-      WToast.show({data: e});
+      Toast.show(e);
     }
   };
 
@@ -81,16 +76,16 @@ export default function ActivityItem(props: {data: EventDetail}) {
         await ActivityCenter.likeEvent({
           id: props.data.id,
         });
-        WToast.show({data: 'operation success'});
+        Toast.show('operation success');
       } else {
         await ActivityCenter.disLikeEvent({
           id: props.data.id,
         });
-        WToast.show({data: 'cancel liking success'});
+        Toast.show('cancel liking success');
       }
       setIsLike(isLike);
     } catch (e) {
-      WToast.show({data: e});
+      Toast.show(e);
     }
   };
 

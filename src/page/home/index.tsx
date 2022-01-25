@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView, StyleSheet, Text, Button} from 'react-native';
-// import NavigationBar from 'react-native-navbar-plus';
-import {WToast} from 'react-native-smart-tip';
 import CommonHeader from '../../commonComponent/CommonHeader';
 import Drawer from 'react-native-drawer';
 import SearchResult from './component/SearchResult';
@@ -16,9 +14,8 @@ export default (props: any) => {
     // <SafeAreaView>
     <Drawer
       type={'displace'}
-      content={<Search setOpenSearch={setOpenSearch}/>} //抽屉内的组件
+      content={<Search setOpenSearch={setOpenSearch} />} //抽屉内的组件
       open={openSearch}
-      
       openDrawerOffset={100}
       onClose={() => {
         setOpenSearch(false);
@@ -33,8 +30,4 @@ export default (props: any) => {
     // </SafeAreaView>
   );
 };
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-  },
-});
+const styles = StyleSheet.create({});
