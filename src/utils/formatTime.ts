@@ -8,11 +8,19 @@ import moment from 'moment-timezone';
 export const renderDiffNow = (create_time: string) => {
   const count = moment().diff(moment(create_time), 'days');
   if (count < 1) {
-    return `Published ${moment().diff(moment(create_time), 'hours')}}`;
-  } else if (count === 1) {
-    return `Published ${count} day ago`;
+    const hours = moment().diff(moment(create_time), 'hours');
+    if (hours < 1) {
+      const mins = moment().diff(moment(create_time), 'minutes');
+      if (mins < 1) {
+        return `Published just now`;
+      } else {
+        return `Published ${mins} ${mins > 1 ? 'minutes' : 'minute'} ago`;
+      }
+    } else {
+      return `Published ${hours} ${hours > 1 ? 'hours' : 'hour'} ago`;
+    }
   } else if (count <= 3) {
-    return `Published ${count} days ago`;
+    return `Published ${count} ${count > 1 ? 'days' : 'day'} ago`;
   } else {
     return `Published on ${moment(create_time).format('YYYY:MM:DD')}`;
   }

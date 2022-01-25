@@ -1,11 +1,20 @@
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, View, Text, Image} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  DeviceEventEmitter,
+} from 'react-native';
 import {scaleSize, setSpText2} from '../../../utils/screen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {renderDiffNow} from '../../../utils/formatTime';
 export default (props: any) => {
   const comment: CommentDetail = props.comment;
-
+  const clickReplyUser = (username: string) => {
+    DeviceEventEmitter.emit('replySpecificUser', username);
+  };
   return (
     <View style={styles.container}>
       <Image style={styles.leftImg} source={{uri: comment.user.avatar}}></Image>
@@ -21,6 +30,9 @@ export default (props: any) => {
             name={'md-arrow-undo-outline'}
             size={setSpText2(16)}
             style={styles.transIcon}
+            onPress={() => {
+              clickReplyUser(comment.user.username);
+            }}
           />
         </View>
         <View style={styles.rightDesc}>
@@ -56,6 +68,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
+    width: '100%',
   },
   rightTitle: {
     flexDirection: 'row',

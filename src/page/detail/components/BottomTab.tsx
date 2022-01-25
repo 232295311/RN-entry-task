@@ -16,13 +16,12 @@ import {TextInput} from 'react-native-gesture-handler';
 import ActivityCenter from '../../../store/ActivityCenter';
 import DetailCenter from '../../../store/DetailCenter';
 import {WToast} from 'react-native-smart-tip';
-// import DeviceEventEmitter from 'react-native-event-bus';
 
 let commentInput = null;
-// ios-heart
+let listener: any = null;
 export default (props: any) => {
   const [showCommentInput, setShowCommentInput] = useState<boolean>(false); //是否展示输入评论的输入框
-  const [comment, setComment] = useState<string>('');
+  const [comment, setComment] = useState<string>(''); //输入的评论内容 发送后清空
 
   const [isGoing, setIsGoing] = useState<boolean | undefined>(false); //是否已经参加
   const [isLike, setIsLike] = useState<boolean | undefined>(false); //是否喜欢
@@ -33,8 +32,19 @@ export default (props: any) => {
       setIsLike(props.detail?.me_likes);
     }
   }, [props.detail]);
-
-  //绑定commeny元素
+  useEffect(() => {
+    listener = DeviceEventEmitter.addListener(
+      'replySpecificUser',
+      (userName: string) => {
+        setShowCommentInput(true);
+        setComment(`@${userName} `);
+      },
+    );
+    return () => {
+      listener.remove();
+    };
+  }, []);
+  //绑定comment元素
   const bindComment = (el: any) => {
     commentInput = el;
   };
@@ -100,6 +110,22 @@ export default (props: any) => {
     }
   };
 
+  //点击飞机按钮 发送评论
+  const clickPostComment = async (comment: string) => {
+    console.log('进来了 点击飞机～～');
+    try {
+      if (comment) {
+        await DetailCenter.postComment(props.detail?.id, comment);
+
+        DeviceEventEmitter.emit('PostCommentSuccess');
+        WToast.show({data: 'comment success'});
+      } else {
+        WToast.show({data: 'please input comment'});
+      }
+    } catch (e) {
+      WToast.show({data: e});
+    }
+  };
   return (
     <View style={styles.container}>
       {showCommentInput ? (
@@ -124,12 +150,16 @@ export default (props: any) => {
               //   onFocus={commentBlur}
             />
           </View>
-          <View style={styles.rightInputContent}>
+          <TouchableOpacity
+            style={styles.rightInputContent}
+            onPress={() => {
+              clickPostComment(comment);
+            }}>
             <FontAwesome5
               name={'paper-plane'}
               size={scaleSize(24)}
               style={{color: '#8560A9'}}></FontAwesome5>
-          </View>
+          </TouchableOpacity>
         </>
       ) : (
         <>

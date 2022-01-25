@@ -21,13 +21,15 @@ import CommentItem from './components/CommentItem';
 import BottomTab from './components/BottomTab';
 import {scaleSize} from '../../utils/screen';
 
+let listener: any = null;
+let listener2: any = null;
 export default (props: any) => {
   const id = props.route.params.id;
   const [detail, setDetail] = useState<EventDetail | null>(null);
   const [participants, setParticipants] = useState<Participants[]>([]);
   const [likes, setLikes] = useState<LikesUser[]>([]);
   const [comments, setComments] = useState<CommentDetail[]>([]);
-  let listener: any = null;
+
   useEffect(() => {
     console.log('id~~~~~~', id);
     if (id) {
@@ -36,16 +38,18 @@ export default (props: any) => {
       initPage(1);
     }
     listener = DeviceEventEmitter.addListener('DetailLikesOrGoing', () => {
-      console.log(
-        '~~~~~~~~~~~detail页面，触发监听',
-        DetailCenter.getLike().length,
-      );
+      console.log('~~~~~~~~~~~detail页面，触发喜欢或参加的监听');
       setParticipants(DetailCenter.getParticipants());
       setLikes(DetailCenter.getLike());
+    });
+    listener2 = DeviceEventEmitter.addListener('PostCommentSuccess', () => {
+      console.log('~~~~~~~~~~~detail页面，触发评论成功的监听');
+      setComments(DetailCenter.getComments());
     });
     return () => {
       console.log('~~~~退出DetailPage');
       listener.remove();
+      listener2.remove();
     };
   }, []);
 
@@ -138,8 +142,5 @@ const styles = StyleSheet.create({
     borderBottomWidth: scaleSize(1),
     borderBottomColor: '#E8E8E8',
   },
-  Comments: {
-    borderBottomWidth: scaleSize(1),
-    borderBottomColor: '#E8E8E8',
-  },
+  Comments: {},
 });

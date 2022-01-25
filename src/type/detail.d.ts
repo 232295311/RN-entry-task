@@ -64,3 +64,11 @@ interface GetEventDetailLikeResp {
   hasMore: boolean;
   users: LikesUser[];
 }
+
+interface PostCommentReq {
+  id: number;
+  comment: string;
+}
+// interface PostCommentResp {
+//   comment: CommentDetail; //Comment message
+// }

@@ -58,24 +58,19 @@ class DetailCenter {
     return false;
   }
 
-  // 用户评论时调用 发送comments、并同时更新Comments组件
-  // async comment(id: number) {
-  //   const resComments =
-  //     await Promise.all([
-  //       DetailServices.getEventDetail({id: id}),
-  //       DetailServices.getEventDetailParticipants({id: id}),
-  //       DetailServices.getEventDetailLikes({id: id}),
-  //       DetailServices.getEventDetailComments({id: id}),
-  //     ]);
-  //   if (resDetail && resParticipants && resComments) {
-  //     this.setDetail(resDetail.event);
-  //     this.setParticipants(resParticipants.users);
-  //     this.setLikes(resLikes.users);
-  //     this.setComments(resComments.comments);
-  //     return true;
-  //   }
-  //   return false;
-  // }
+  // 用户评论时调用 发送comments、并同时更新this.Comment以更新Comments组件
+  async postComment(id: number, comment: string) {
+    const resComments = await DetailServices.postComment({
+      id,
+      comment,
+    });
+    if (resComments) {
+      this.setComments([...this.getComments(), resComments]);
+      return true;
+    }
+    return false;
+  }
+
   setDetail(params: EventDetail) {
     this.detail = params;
   }

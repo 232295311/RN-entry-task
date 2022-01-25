@@ -24,6 +24,14 @@ const getEventDetailComments = async (
   const res: any = await get(`events/${params.id}/comments`)();
   return res;
 };
+//用户发送评论，comments信息
+const postComment = async (params: PostCommentReq): Promise<CommentDetail> => {
+  const data = {
+    ...params,
+  };
+  const res: any = await post(`events/${params.id}/comments`)(data)();
+  return res;
+};
 
 //获取活动participants信息
 const getEventDetailParticipants = async (
@@ -46,4 +54,5 @@ export {
   getEventDetailComments,
   getEventDetailParticipants,
   getEventDetailLikes,
+  postComment,
 };
