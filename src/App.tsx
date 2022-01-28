@@ -3,8 +3,7 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import AppNavigators from './navigation/AppNavigators';
 import {RootSiblingParent} from 'react-native-root-siblings';
-import {SafeAreaView} from 'react-native';
-import {LogBox} from 'react-native';
+import {SafeAreaView, LogBox} from 'react-native';
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",

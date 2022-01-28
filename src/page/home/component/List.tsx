@@ -111,6 +111,7 @@ export default function List() {
           rowRenderer={listRowRender}
           onEndReachedThreshold={300}
           onEndReached={loadMore}
+          
         />
       );
     }

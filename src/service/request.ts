@@ -5,7 +5,7 @@
 import userCenter from '../store/UserCenter';
 import NavigationUtil from '../navigation/NavigationUtil';
 
-const host = 'http://localhost:3000/api/v1/';
+const host = 'http://10.0.2.2:3000/api/v1/';
 
 /**
  * 发送get请求  类似python里 requests.get
