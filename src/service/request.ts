@@ -5,7 +5,7 @@
 import userCenter from '../store/UserCenter';
 import NavigationUtil from '../navigation/NavigationUtil';
 
-const host = 'http://10.0.2.2:3000/api/v1/';
+const host = 'http://10.12.112.182:3000/api/v1/';
 
 /**
  * 发送get请求  类似python里 requests.get
@@ -18,6 +18,7 @@ export function get(api: string) {
       fetch(buildParams(host + api, params), {
         headers: {
           method: 'GET',
+          'content-type': 'application/json',
           'X-BLACKCAT-TOKEN': token || '',
         },
       }),
@@ -86,7 +87,7 @@ function handleData(doAction: Promise<any>) {
         return res.text();
       })
       .then(result => {
-        console.log('handleData result~~~~:');
+        console.log('handleData result~~~~:',result);
         if (result.error === 'invalid_token') {
           NavigationUtil.resetToLoginPage({});
           return;
